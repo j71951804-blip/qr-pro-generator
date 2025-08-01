@@ -8,6 +8,7 @@ import * as Papa from 'papaparse';
 import saveAs from 'file-saver';
 import JSZip from 'jszip';
 import { AdPlaceholder } from '../layout/AdPlaceholder';
+import { saveAs } from 'file-saver';
 
 interface QrCodeGeneratorState {
     options: typeof DEFAULT_QR_CODE_OPTIONS;
