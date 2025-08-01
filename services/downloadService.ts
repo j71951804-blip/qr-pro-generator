@@ -185,4 +185,101 @@ export const downloadPdf = (svgElement: SVGSVGElement, fileName: string, size: n
             };
 
             img.onerror = () => {
-                URL.r
+                URL.revokeObjectURL(url);
+                reject(new Error('Failed to load SVG image for PDF'));
+            };
+
+            img.src = url;
+            
+        } catch (error) {
+            reject(error);
+        }
+    }).catch((error) => {
+        handleDownloadError(error as Error, 'PDF');
+    });
+};
+
+// Bulk download helper
+export const downloadBulkQRs = async (
+    qrData: Array<{ value: string; filename: string }>,
+    format: 'png' | 'svg' | 'pdf' = 'png',
+    size: number = 256,
+    onProgress?: (current: number, total: number) => void
+): Promise<void> => {
+    try {
+        const JSZip = (await import('jszip')).default;
+        const { saveAs } = await import('file-saver');
+        
+        const zip = new JSZip();
+        
+        for (let i = 0; i < qrData.length; i++) {
+            const { value, filename } = qrData[i];
+            
+            // Create temporary SVG element
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = `
+                <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">
+                    <!-- QR code would be generated here -->
+                    <rect width="${size}" height="${size}" fill="white"/>
+                    <text x="50%" y="50%" text-anchor="middle" dy=".3em" font-family="Arial" font-size="12">
+                        QR: ${value.substring(0, 20)}${value.length > 20 ? '...' : ''}
+                    </text>
+                </svg>
+            `;
+            
+            const svgElement = tempDiv.querySelector('svg') as SVGSVGElement;
+            
+            if (svgElement) {
+                if (format === 'svg') {
+                    const svgString = new XMLSerializer().serializeToString(svgElement);
+                    zip.file(`${filename}.svg`, svgString);
+                } else if (format === 'png') {
+                    // Convert to PNG
+                    const canvas = document.createElement('canvas');
+                    canvas.width = size;
+                    canvas.height = size;
+                    const ctx = canvas.getContext('2d');
+                    
+                    if (ctx) {
+                        ctx.fillStyle = '#ffffff';
+                        ctx.fillRect(0, 0, size, size);
+                        
+                        const pngData = canvas.toDataURL('image/png').split(',')[1];
+                        zip.file(`${filename}.png`, pngData, { base64: true });
+                    }
+                }
+            }
+            
+            if (onProgress) {
+                onProgress(i + 1, qrData.length);
+            }
+        }
+        
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
+        saveAs(zipBlob, `qr-codes-${format}.zip`);
+        
+        trackDownload(`bulk-${format}`);
+        
+    } catch (error) {
+        handleDownloadError(error as Error, `bulk ${format}`);
+    }
+};
+
+// Utility function to validate SVG element
+export const validateSvgElement = (element: SVGSVGElement): boolean => {
+    if (!element || element.tagName !== 'svg') {
+        return false;
+    }
+    
+    const bbox = element.getBBox();
+    return bbox.width > 0 && bbox.height > 0;
+};
+
+// Utility function to sanitize filename
+export const sanitizeFileName = (fileName: string): string => {
+    return fileName
+        .replace(/[^a-z0-9]/gi, '_')
+        .replace(/__+/g, '_')
+        .replace(/^_|_$/g, '')
+        .toLowerCase();
+};
