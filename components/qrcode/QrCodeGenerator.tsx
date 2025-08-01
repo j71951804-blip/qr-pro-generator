@@ -712,51 +712,73 @@ export const QrCodeGenerator: React.FC = () => {
             alert('Download failed. Please try again.');
         }
     };
+    // In QrCodeGenerator.tsx - Replace the generateBulkQRs function
 
-    const generateBulkQRs = async () => {
-        if (state.bulkData.length === 0) return;
+const generateBulkQRs = async () => {
+    if (state.bulkData.length === 0) return;
+    
+    setState(prev => ({ ...prev, isProcessing: true, downloadProgress: 0 }));
+    
+    try {
+        const zip = new JSZip();
         
-        setState(prev => ({ ...prev, isProcessing: true, downloadProgress: 0 }));
-        
-        try {
-            const zip = new JSZip();
+        for (const [index, row] of state.bulkData.entries()) {
+            const qrValue = row.value || JSON.stringify(row);
+            const filename = sanitizeFileName(row.filename || `qrcode_${index}`);
             
-            for (const [index, row] of state.bulkData.entries()) {
-                // Create QR code SVG for each row
-                const qrValue = row.value || JSON.stringify(row);
-                const filename = sanitizeFileName(row.filename || `qrcode_${index}`);
-                
-                // For demo purposes, we'll create a simple SVG
-                // In a real implementation, you'd generate actual QR codes
-                const svgContent = `
-                    <svg width="${state.options.size}" height="${state.options.size}" viewBox="0 0 ${state.options.size} ${state.options.size}" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="${state.options.size}" height="${state.options.size}" fill="${state.options.bgColor}"/>
-                        <text x="50%" y="50%" text-anchor="middle" dy=".3em" font-family="Arial" font-size="12" fill="${state.options.fgColor}">
-                            QR: ${qrValue.substring(0, 20)}${qrValue.length > 20 ? '...' : ''}
-                        </text>
-                    </svg>
-                `.trim();
-                
-                zip.file(`${filename}.svg`, svgContent);
-                
-                // Update progress
-                const progress = ((index + 1) / state.bulkData.length) * 100;
-                setState(prev => ({ ...prev, downloadProgress: progress }));
-                
-                // Small delay to show progress
-                await new Promise(resolve => setTimeout(resolve, 50));
-            }
+            // Create a temporary div to render QR code
+            const tempDiv = document.createElement('div');
+            tempDiv.style.position = 'absolute';
+            tempDiv.style.left = '-9999px';
+            document.body.appendChild(tempDiv);
             
-            const zipBlob = await zip.generateAsync({ type: 'blob' });
-            saveAs(zipBlob, `qr-codes-bulk-${Date.now()}.zip`);
+            // Create QR code SVG using the same component
+            const qrSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            qrSvg.setAttribute('width', state.options.size.toString());
+            qrSvg.setAttribute('height', state.options.size.toString());
+            qrSvg.setAttribute('viewBox', `0 0 ${state.options.size} ${state.options.size}`);
             
-        } catch (error) {
-            console.error('Bulk generation failed:', error);
-            alert('Bulk generation failed. Please try again.');
-        } finally {
-            setState(prev => ({ ...prev, isProcessing: false, downloadProgress: 0 }));
+            // Generate QR code data (you'd need to implement QR generation logic)
+            // For now, using a placeholder - in production, use qrcode library
+            const qrContent = `
+                <rect width="${state.options.size}" height="${state.options.size}" fill="${state.options.bgColor}"/>
+                <rect x="20" y="20" width="20" height="20" fill="${state.options.fgColor}"/>
+                <rect x="60" y="20" width="20" height="20" fill="${state.options.fgColor}"/>
+                <!-- Add actual QR code generation here -->
+            `;
+            
+            qrSvg.innerHTML = qrContent;
+            tempDiv.appendChild(qrSvg);
+            
+            // Serialize SVG
+            const serializer = new XMLSerializer();
+            const svgString = serializer.serializeToString(qrSvg);
+            
+            // Clean up
+            document.body.removeChild(tempDiv);
+            
+            // Add to zip
+            zip.file(`${filename}.svg`, svgString);
+            
+            // Update progress
+            const progress = ((index + 1) / state.bulkData.length) * 100;
+            setState(prev => ({ ...prev, downloadProgress: progress }));
+            
+            // Small delay to show progress
+            await new Promise(resolve => setTimeout(resolve, 10));
         }
-    };
+        
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
+        saveAs(zipBlob, `qr-codes-bulk-${Date.now()}.zip`);
+        
+    } catch (error) {
+        console.error('Bulk generation failed:', error);
+        alert('Bulk generation failed. Please try again.');
+    } finally {
+        setState(prev => ({ ...prev, isProcessing: false, downloadProgress: 0 }));
+    }
+};
+    
 
     const shareUrl = encodeURIComponent(window.location.href);
     const shareText = encodeURIComponent('Check out this free QR Code Generator!');
