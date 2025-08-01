@@ -1,5 +1,6 @@
 import React from 'react';
 import { HashRouter, Routes, Route, NavLink } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react'; // Import Analytics
 import HomePage from './pages/HomePage';
 import BlogPage from './pages/BlogPage';
 import FaqPage from './pages/FaqPage';
@@ -35,7 +36,6 @@ const Header: React.FC = () => {
     );
 };
 
-
 const Footer: React.FC = () => (
     <footer className="bg-white mt-12 py-8 border-t">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-secondary">
@@ -69,6 +69,7 @@ const App: React.FC = () => {
           </Routes>
         </main>
         <Footer />
+        <Analytics /> {/* Add Analytics component */}
       </div>
     </HashRouter>
   );
