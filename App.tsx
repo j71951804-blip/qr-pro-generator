@@ -1,4 +1,4 @@
-// App.tsx - UPDATED (No Ad Placeholders)
+// App.tsx - FINAL VERSION with all new routes
 import React from 'react';
 import { HashRouter, Routes, Route, NavLink } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
@@ -6,10 +6,12 @@ import HomePage from './pages/HomePage';
 import BlogPage from './pages/BlogPage';
 import FaqPage from './pages/FaqPage';
 import ContactPage from './pages/ContactPage';
-import { QrCode, Menu } from 'lucide-react';
+import { TutorialsPage, ResourcesPage, PrivacyPage, TermsPage } from './pages/NewPages';
+import { QrCode, Menu, ChevronDown } from 'lucide-react';
 
 const Header: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+    const [isResourcesOpen, setIsResourcesOpen] = React.useState(false);
 
     return (
         <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -34,26 +36,29 @@ const Header: React.FC = () => {
                         >
                             Generator
                         </NavLink>
-                        <NavLink 
-                            to="/blog" 
-                            className={({ isActive }) => 
-                                `text-base font-medium transition-colors ${
-                                    isActive ? 'text-primary' : 'text-secondary hover:text-primary'
-                                }`
-                            }
-                        >
-                            Blog
-                        </NavLink>
-                        <NavLink 
-                            to="/faq" 
-                            className={({ isActive }) => 
-                                `text-base font-medium transition-colors ${
-                                    isActive ? 'text-primary' : 'text-secondary hover:text-primary'
-                                }`
-                            }
-                        >
-                            FAQ
-                        </NavLink>
+                        
+                        {/* Resources Dropdown */}
+                        <div className="relative group">
+                            <button className="flex items-center space-x-1 text-base font-medium text-secondary hover:text-primary transition-colors">
+                                <span>Resources</span>
+                                <ChevronDown className="w-4 h-4" />
+                            </button>
+                            <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-md shadow-lg border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                                <NavLink to="/blog" className="block px-4 py-2 text-sm text-secondary hover:bg-gray-50 hover:text-primary">
+                                    Blog & Insights
+                                </NavLink>
+                                <NavLink to="/tutorials" className="block px-4 py-2 text-sm text-secondary hover:bg-gray-50 hover:text-primary">
+                                    Video Tutorials
+                                </NavLink>
+                                <NavLink to="/resources" className="block px-4 py-2 text-sm text-secondary hover:bg-gray-50 hover:text-primary">
+                                    Free Downloads
+                                </NavLink>
+                                <NavLink to="/faq" className="block px-4 py-2 text-sm text-secondary hover:bg-gray-50 hover:text-primary">
+                                    FAQ
+                                </NavLink>
+                            </div>
+                        </div>
+                        
                         <NavLink 
                             to="/contact" 
                             className={({ isActive }) => 
@@ -109,6 +114,28 @@ const Header: React.FC = () => {
                                 Blog
                             </NavLink>
                             <NavLink 
+                                to="/tutorials" 
+                                className={({ isActive }) => 
+                                    `block px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                                        isActive ? 'text-primary bg-blue-50' : 'text-secondary hover:text-primary hover:bg-gray-50'
+                                    }`
+                                }
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                Tutorials
+                            </NavLink>
+                            <NavLink 
+                                to="/resources" 
+                                className={({ isActive }) => 
+                                    `block px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                                        isActive ? 'text-primary bg-blue-50' : 'text-secondary hover:text-primary hover:bg-gray-50'
+                                    }`
+                                }
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                Resources
+                            </NavLink>
+                            <NavLink 
                                 to="/faq" 
                                 className={({ isActive }) => 
                                     `block px-3 py-2 rounded-md text-base font-medium transition-colors ${
@@ -141,21 +168,51 @@ const Header: React.FC = () => {
 const Footer: React.FC = () => (
     <footer className="bg-white mt-12 py-8 border-t">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center text-secondary mb-6">
+            <div className="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 className="font-bold text-dark mb-4">QR Pro Generator</h3>
+                    <p className="text-secondary text-sm">
+                        Free, professional QR code generator for businesses and individuals. 
+                        Create unlimited QR codes with no registration required.
+                    </p>
+                </div>
+                <div>
+                    <h4 className="font-semibold text-dark mb-4">Tools</h4>
+                    <ul className="space-y-2 text-sm">
+                        <li><NavLink to="/" className="text-secondary hover:text-primary">QR Generator</NavLink></li>
+                        <li><NavLink to="/bulk-generator" className="text-secondary hover:text-primary">Bulk Generator</NavLink></li>
+                        <li><NavLink to="/qr-scanner" className="text-secondary hover:text-primary">QR Scanner</NavLink></li>
+                        <li><NavLink to="/api" className="text-secondary hover:text-primary">API Access</NavLink></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 className="font-semibold text-dark mb-4">Resources</h4>
+                    <ul className="space-y-2 text-sm">
+                        <li><NavLink to="/blog" className="text-secondary hover:text-primary">Blog</NavLink></li>
+                        <li><NavLink to="/tutorials" className="text-secondary hover:text-primary">Tutorials</NavLink></li>
+                        <li><NavLink to="/resources" className="text-secondary hover:text-primary">Downloads</NavLink></li>
+                        <li><NavLink to="/faq" className="text-secondary hover:text-primary">FAQ</NavLink></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 className="font-semibold text-dark mb-4">Support</h4>
+                    <ul className="space-y-2 text-sm">
+                        <li><NavLink to="/contact" className="text-secondary hover:text-primary">Contact Us</NavLink></li>
+                        <li><NavLink to="/privacy" className="text-secondary hover:text-primary">Privacy Policy</NavLink></li>
+                        <li><NavLink to="/terms" className="text-secondary hover:text-primary">Terms of Service</NavLink></li>
+                        <li><a href="mailto:support@qrprogenerator.com" className="text-secondary hover:text-primary">Email Support</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div className="border-t pt-6 text-center text-secondary">
                 <p className="mb-2">&copy; {new Date().getFullYear()} QR Pro Generator. All rights reserved.</p>
                 <p className="text-sm">Free QR code generator for URLs, text, WiFi, business cards and more.</p>
             </div>
             
-            <div className="flex flex-wrap justify-center space-x-6 text-sm">
-                <a href="#privacy" className="hover:text-primary transition-colors">Privacy Policy</a>
-                <a href="#terms" className="hover:text-primary transition-colors">Terms of Service</a>
-                <a href="#affiliate" className="hover:text-primary transition-colors">Affiliate Disclosure</a>
-                <a href="#dmca" className="hover:text-primary transition-colors">DMCA</a>
-            </div>
-            
-            <div className="mt-6 text-center">
+            <div className="mt-4 text-center">
                 <p className="text-xs text-gray-400">
-                    Keywords: QR code generator, free QR maker, QR code creator, bulk QR codes, custom QR codes
+                    Keywords: QR code generator, free QR maker, QR code creator, bulk QR codes, custom QR codes, WiFi QR codes, vCard QR codes
                 </p>
             </div>
         </div>
@@ -174,12 +231,12 @@ const ErrorBoundary: React.FC<{ children: React.ReactNode }> = ({ children }) =>
     if (hasError) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-light">
-                <div className="text-center p-8">
+                <div className="text-center p-8 bg-white rounded-lg shadow-lg max-w-md">
                     <h1 className="text-2xl font-bold text-dark mb-4">Oops! Something went wrong</h1>
-                    <p className="text-secondary mb-4">We're sorry for the inconvenience. Please refresh the page to try again.</p>
+                    <p className="text-secondary mb-6">We're sorry for the inconvenience. Please refresh the page to try again.</p>
                     <button 
                         onClick={() => window.location.reload()} 
-                        className="bg-primary text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors"
+                        className="bg-primary text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors"
                     >
                         Refresh Page
                     </button>
@@ -198,32 +255,50 @@ const App: React.FC = () => {
                 <div className="min-h-screen flex flex-col font-sans bg-light">
                     <Header />
                     
-                    {/* REMOVED: Header Ad Placeholder - Now clean header */}
-                    
                     <main className="flex-grow">
                         <Routes>
+                            {/* Main Pages */}
                             <Route path="/" element={<HomePage />} />
                             <Route path="/blog" element={<BlogPage />} />
+                            <Route path="/tutorials" element={<TutorialsPage />} />
+                            <Route path="/resources" element={<ResourcesPage />} />
                             <Route path="/faq" element={<FaqPage />} />
                             <Route path="/contact" element={<ContactPage />} />
+                            
+                            {/* Legal Pages */}
+                            <Route path="/privacy" element={<PrivacyPage />} />
+                            <Route path="/terms" element={<TermsPage />} />
                             
                             {/* SEO-friendly alternative routes */}
                             <Route path="/free-qr-code-generator" element={<HomePage />} />
                             <Route path="/qr-code-maker" element={<HomePage />} />
                             <Route path="/bulk-qr-generator" element={<HomePage />} />
                             <Route path="/custom-qr-codes" element={<HomePage />} />
+                            <Route path="/wifi-qr-generator" element={<HomePage />} />
+                            <Route path="/vcard-qr-generator" element={<HomePage />} />
+                            <Route path="/business-card-qr" element={<HomePage />} />
                             
                             {/* 404 Fallback */}
                             <Route path="*" element={
                                 <div className="container mx-auto px-4 py-16 text-center">
-                                    <h1 className="text-4xl font-bold text-dark mb-4">404 - Page Not Found</h1>
-                                    <p className="text-secondary mb-8">The page you're looking for doesn't exist.</p>
-                                    <NavLink 
-                                        to="/" 
-                                        className="bg-primary text-white px-6 py-3 rounded-md font-semibold hover:bg-blue-700 transition-colors"
-                                    >
-                                        Go to QR Generator
-                                    </NavLink>
+                                    <div className="max-w-md mx-auto bg-white rounded-lg shadow-lg p-8">
+                                        <h1 className="text-4xl font-bold text-dark mb-4">404 - Page Not Found</h1>
+                                        <p className="text-secondary mb-8">The page you're looking for doesn't exist, but our QR generator is ready to help!</p>
+                                        <div className="space-y-3">
+                                            <NavLink 
+                                                to="/" 
+                                                className="block bg-primary text-white px-6 py-3 rounded-md font-semibold hover:bg-blue-700 transition-colors"
+                                            >
+                                                Go to QR Generator
+                                            </NavLink>
+                                            <NavLink 
+                                                to="/blog" 
+                                                className="block bg-gray-100 text-secondary px-6 py-3 rounded-md font-semibold hover:bg-gray-200 transition-colors"
+                                            >
+                                                Browse Our Blog
+                                            </NavLink>
+                                        </div>
+                                    </div>
                                 </div>
                             } />
                         </Routes>
