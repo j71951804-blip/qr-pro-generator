@@ -1,9 +1,6 @@
 import React from 'react';
 import { AFFILIATE_TOOLS } from '../../constants';
-import { QRCodeTips } from '../content/QRCodeTips';
-import { UseCases } from '../content/UseCases';
-import { Newsletter } from '../content/Newsletter';
-import { SecuritySection } from '../content/SecuritySection';
+import { QRCodeTips, UseCases, Newsletter, SecuritySection } from '../content/QRCodeTips';
 
 export const Sidebar: React.FC = () => {
     return (
