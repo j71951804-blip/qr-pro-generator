@@ -1,4 +1,3 @@
-// components/qrcode/QrCodeGenerator.tsx - UPDATED (No Ad Placeholders)
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { QrCodeType, VCardData, WifiData, EmailData, SmsData } from '../../types';
