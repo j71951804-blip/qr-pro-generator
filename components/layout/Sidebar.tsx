@@ -1,7 +1,9 @@
-
 import React from 'react';
 import { AFFILIATE_TOOLS } from '../../constants';
-import { AdPlaceholder } from './AdPlaceholder';
+import { QRCodeTips } from '../content/QRCodeTips';
+import { UseCases } from '../content/UseCases';
+import { Newsletter } from '../content/Newsletter';
+import { SecuritySection } from '../content/SecuritySection';
 
 export const Sidebar: React.FC = () => {
     return (
@@ -13,13 +15,18 @@ export const Sidebar: React.FC = () => {
                     <li className="flex items-center">✅ Advanced Analytics</li>
                     <li className="flex items-center">✅ Bulk Generation</li>
                     <li className="flex items-center">✅ Team Collaboration</li>
+                    <li className="flex items-center">✅ Custom Branding</li>
+                    <li className="flex items-center">✅ API Access</li>
                 </ul>
                 <button className="w-full bg-primary text-white py-2 rounded-md font-semibold hover:bg-blue-700 transition-colors">
                     Learn More
                 </button>
             </div>
             
-            <AdPlaceholder width={300} height={250} text="300x250 Ad Space" />
+            {/* Replace AdPlaceholder with valuable content */}
+            <QRCodeTips />
+            
+            <UseCases />
 
             <div className="bg-white p-6 rounded-lg shadow-md">
                 <h3 className="text-lg font-bold text-dark mb-4">Recommended Tools</h3>
@@ -35,6 +42,10 @@ export const Sidebar: React.FC = () => {
                     ))}
                 </div>
             </div>
+
+            <Newsletter />
+
+            <SecuritySection />
         </div>
     );
 };
