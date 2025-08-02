@@ -1,4 +1,3 @@
-// pages/HomePage.tsx - UPDATED (No Ad Placeholders)
 import React, { useState, useEffect } from 'react';
 import { QrCodeGenerator } from '../components/qrcode/QrCodeGenerator';
 import { Sidebar } from '../components/layout/Sidebar';
