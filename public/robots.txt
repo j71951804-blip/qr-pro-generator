@@ -6,5 +6,20 @@ Sitemap: https://qr-pro-generator.com/sitemap.xml
 # Block preview deployments and alternative domains
 User-agent: *
 Disallow: /*--*.vercel.app/
-Disallow: /qr-pro-generator-2hwx.vercel.app/
-Disallow: /qr-pro-generator.vercel.app/
+
+# Allow common crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Block AI training crawlers (optional)
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
