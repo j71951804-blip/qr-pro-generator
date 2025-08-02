@@ -1,3 +1,4 @@
+// App.tsx - UPDATED (No Ad Placeholders)
 import React from 'react';
 import { HashRouter, Routes, Route, NavLink } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
@@ -6,7 +7,6 @@ import BlogPage from './pages/BlogPage';
 import FaqPage from './pages/FaqPage';
 import ContactPage from './pages/ContactPage';
 import { QrCode, Menu } from 'lucide-react';
-import { AdPlaceholder } from './components/layout/AdPlaceholder';
 
 const Header: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -198,10 +198,7 @@ const App: React.FC = () => {
                 <div className="min-h-screen flex flex-col font-sans bg-light">
                     <Header />
                     
-                    {/* Header Ad */}
-                    <div className="flex justify-center my-4 px-4">
-                        <AdPlaceholder width={728} height={90} text="Header Ad - 728x90 Leaderboard" />
-                    </div>
+                    {/* REMOVED: Header Ad Placeholder - Now clean header */}
                     
                     <main className="flex-grow">
                         <Routes>
