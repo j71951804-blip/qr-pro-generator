@@ -52,7 +52,7 @@ export const downloadSvg = (svgElement: SVGSVGElement, fileName: string): void =
 };
 
 export const downloadPng = (svgElement: SVGSVGElement, fileName: string, size: number): Promise<void> => {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
         try {
             const canvas = document.createElement("canvas");
             canvas.width = size;
@@ -114,13 +114,14 @@ export const downloadPng = (svgElement: SVGSVGElement, fileName: string, size: n
         } catch (error) {
             reject(error);
         }
-    }).catch((error) => {
+    }).catch((error): Promise<void> => {
         handleDownloadError(error as Error, 'PNG');
+        return Promise.resolve();
     });
 };
 
 export const downloadPdf = (svgElement: SVGSVGElement, fileName: string, size: number): Promise<void> => {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
         try {
             const canvas = document.createElement('canvas');
             canvas.width = size;
@@ -194,8 +195,9 @@ export const downloadPdf = (svgElement: SVGSVGElement, fileName: string, size: n
         } catch (error) {
             reject(error);
         }
-    }).catch((error) => {
+    }).catch((error): Promise<void> => {
         handleDownloadError(error as Error, 'PDF');
+        return Promise.resolve();
     });
 };
 
