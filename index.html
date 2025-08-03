@@ -232,7 +232,7 @@
       }
     </script>
     
-    <!-- Import Map for ES Modules - FIXED VERSIONS -->
+    <!-- Import Map for ES Modules -->
     <script type="importmap">
     {
       "imports": {
@@ -262,7 +262,6 @@
             })
             .catch(function(registrationError) {
               console.log('SW registration failed: ', registrationError);
-              // Don't block the app if SW fails
             });
         });
       }
@@ -322,9 +321,8 @@
       });
     </script>
 
-    <!-- Accessibility Improvements -->
+    <!-- Critical CSS -->
     <style>
-      /* Critical CSS for above-the-fold content */
       .loading-spinner {
         display: inline-block;
         width: 20px;
@@ -339,13 +337,6 @@
         to { transform: rotate(360deg); }
       }
 
-      /* Focus indicators for accessibility */
-      .focus\:ring-2:focus {
-        outline: 2px solid #0D6EFD;
-        outline-offset: 2px;
-      }
-
-      /* Skip to main content link */
       .skip-link {
         position: absolute;
         top: -40px;
@@ -363,16 +354,6 @@
         top: 6px;
       }
 
-      /* Reduced motion preferences */
-      @media (prefers-reduced-motion: reduce) {
-        *, *::before, *::after {
-          animation-duration: 0.01ms !important;
-          animation-iteration-count: 1 !important;
-          transition-duration: 0.01ms !important;
-        }
-      }
-
-      /* Loading state styles */
       #loading-indicator {
         position: fixed;
         top: 50%;
@@ -387,17 +368,18 @@
         font-family: system-ui, sans-serif;
       }
 
-      #loading-indicator p {
-        margin-top: 10px;
-        color: #6C757D;
-        font-size: 14px;
-      }
-
-      /* Ensure proper font loading */
       body {
         font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         margin: 0;
         padding: 0;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
       }
     </style>
   </head>
@@ -409,7 +391,7 @@
     <!-- Loading indicator -->
     <div id="loading-indicator">
       <div class="loading-spinner"></div>
-      <p>Loading QR Generator...</p>
+      <p style="margin-top: 10px; color: #6C757D; font-size: 14px;">Loading QR Generator...</p>
     </div>
 
     <!-- Main app container -->
@@ -432,15 +414,11 @@
             <li style="margin-bottom: 8px;">Free for commercial use</li>
           </ul>
         </div>
-        <p style="color: #6c757d; font-size: 12px;">
-          To enable JavaScript: Chrome/Edge: Settings → Privacy → Site Settings → JavaScript. 
-          Firefox: about:config → javascript.enabled. Safari: Preferences → Security → Enable JavaScript.
-        </p>
       </div>
     </noscript>
 
-    <!-- React app initialization - FIXED PATH -->
-    <script type="module" src="/src/index.tsx"></script>
+    <!-- React app initialization - CORRECT PATH FOR YOUR SETUP -->
+    <script type="module" src="/index.tsx"></script>
 
     <!-- Post-load scripts -->
     <script>
@@ -499,7 +477,7 @@
       let scrollDepthReached = [];
       
       window.addEventListener('scroll', function() {
-        if (document.body.scrollHeight <= window.innerHeight) return; // Skip if no scroll
+        if (document.body.scrollHeight <= window.innerHeight) return;
         
         const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
         
@@ -531,145 +509,10 @@
           gtag('event', 'network_info', {
             'event_category': 'Performance',
             'event_label': connection.effectiveType || 'unknown',
-            'custom_parameter_1': connection.downlink || 0,
             'non_interaction': true
           });
         }
       }
-
-      // Enhanced resource loading tracking
-      window.addEventListener('load', function() {
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'page_load_complete', {
-            'event_category': 'Performance',
-            'event_label': 'full_load',
-            'value': Math.round(performance.now()),
-            'non_interaction': true
-          });
-        }
-      });
-
-      // Track when React app actually starts
-      window.addEventListener('DOMContentLoaded', function() {
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'dom_content_loaded', {
-            'event_category': 'Performance',
-            'event_label': 'dom_ready',
-            'value': Math.round(performance.now()),
-            'non_interaction': true
-          });
-        }
-      });
-
-      // Track offline/online status
-      window.addEventListener('online', function() {
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'connection_status', {
-            'event_category': 'Performance',
-            'event_label': 'online',
-            'non_interaction': true
-          });
-        }
-      });
-
-      window.addEventListener('offline', function() {
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'connection_status', {
-            'event_category': 'Performance',
-            'event_label': 'offline',
-            'non_interaction': true
-          });
-        }
-      });
-
-      // Track page close/refresh events
-      window.addEventListener('beforeunload', function() {
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'page_exit', {
-            'event_category': 'Engagement',
-            'event_label': 'beforeunload',
-            'non_interaction': true
-          });
-        }
-      });
-
-      // Track how long users stay on page
-      let pageStartTime = Date.now();
-      window.addEventListener('beforeunload', function() {
-        const timeOnPage = Math.round((Date.now() - pageStartTime) / 1000);
-        if (typeof gtag !== 'undefined' && timeOnPage > 5) { // Only track if more than 5 seconds
-          gtag('event', 'time_on_page', {
-            'event_category': 'Engagement',
-            'event_label': 'seconds',
-            'value': timeOnPage,
-            'non_interaction': true
-          });
-        }
-      });
-
-      // Track button clicks and form interactions
-      document.addEventListener('click', function(event) {
-        if (event.target.tagName === 'BUTTON' || event.target.type === 'submit') {
-          if (typeof gtag !== 'undefined') {
-            gtag('event', 'button_click', {
-              'event_category': 'Interaction',
-              'event_label': event.target.textContent || event.target.value || 'unknown_button',
-              'non_interaction': false
-            });
-          }
-        }
-      });
-
-      // Track form submissions
-      document.addEventListener('submit', function(event) {
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'form_submit', {
-            'event_category': 'Interaction',
-            'event_label': event.target.id || event.target.className || 'unknown_form',
-            'non_interaction': false
-          });
-        }
-      });
-
-      // Track when users focus on input fields
-      document.addEventListener('focus', function(event) {
-        if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA' || event.target.tagName === 'SELECT') {
-          if (typeof gtag !== 'undefined') {
-            gtag('event', 'form_field_focus', {
-              'event_category': 'Interaction',
-              'event_label': event.target.type || event.target.tagName.toLowerCase(),
-              'non_interaction': true
-            });
-          }
-        }
-      }, true);
-
-      // Track right-click events (context menu)
-      document.addEventListener('contextmenu', function(event) {
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'right_click', {
-            'event_category': 'Interaction',
-            'event_label': event.target.tagName.toLowerCase(),
-            'non_interaction': true
-          });
-        }
-      });
-
-      // Track keyboard shortcuts
-      document.addEventListener('keydown', function(event) {
-        if (event.ctrlKey || event.metaKey) {
-          const key = event.key.toLowerCase();
-          if (['s', 'p', 'f', 'r', 'z', 'y', 'c', 'v', 'x', 'a'].includes(key)) {
-            if (typeof gtag !== 'undefined') {
-              gtag('event', 'keyboard_shortcut', {
-                'event_category': 'Interaction',
-                'event_label': (event.ctrlKey ? 'ctrl+' : 'cmd+') + key,
-                'non_interaction': true
-              });
-            }
-          }
-        }
-      });
     </script>
   </body>
 </html>
