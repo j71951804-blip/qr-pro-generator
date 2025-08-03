@@ -47,9 +47,6 @@
     <meta property="twitter:creator" content="@QRProGenerator" />
     <meta property="twitter:site" content="@QRProGenerator" />
 
-    <!-- LinkedIn -->
-    <meta property="linkedin:owner" content="QR Pro Generator" />
-
     <!-- Additional SEO Meta Tags -->
     <meta name="rating" content="general" />
     <meta name="distribution" content="global" />
@@ -61,13 +58,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin />
-    <link rel="preconnect" href="https://esm.sh" crossorigin />
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
     
     <!-- DNS Prefetch -->
     <link rel="dns-prefetch" href="//www.google-analytics.com" />
     <link rel="dns-prefetch" href="//www.googletagmanager.com" />
-    <link rel="dns-prefetch" href="//pagead2.googlesyndication.com" />
 
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json">
@@ -139,25 +133,6 @@
     }
     </script>
 
-    <!-- Website Schema -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "QR Pro Generator",
-      "url": "https://qr-pro-generator.com/",
-      "description": "Free QR code generator for businesses and individuals",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": {
-          "@type": "EntryPoint",
-          "urlTemplate": "https://qr-pro-generator.com/?q={search_term_string}"
-        },
-        "query-input": "required name=search_term_string"
-      }
-    }
-    </script>
-
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YOUR-ACTUAL-GA4-ID"></script>
     <script>
@@ -168,14 +143,6 @@
         page_title: document.title,
         page_location: window.location.href,
         send_page_view: true
-      });
-      
-      // Enhanced ecommerce and events
-      gtag('config', 'G-YOUR-ACTUAL-GA4-ID', {
-        custom_map: {
-          'custom_parameter_1': 'qr_type',
-          'custom_parameter_2': 'download_format'
-        }
       });
       
       // Track QR code generations
@@ -195,15 +162,6 @@
           'event_label': format,
           'value': 1,
           'download_format': format
-        });
-      };
-
-      // Track page scroll depth
-      window.trackScrollDepth = function(depth) {
-        gtag('event', 'scroll', {
-          'event_category': 'Engagement',
-          'event_label': depth + '%',
-          'value': depth
         });
       };
     </script>
@@ -230,95 +188,6 @@
           },
         },
       }
-    </script>
-    
-    <!-- Import Map for ES Modules -->
-    <script type="importmap">
-    {
-      "imports": {
-        "react": "https://esm.sh/react@^19.1.1",
-        "react-dom/": "https://esm.sh/react-dom@^19.1.1/",
-        "react/": "https://esm.sh/react@^19.1.1/",
-        "jszip": "https://esm.sh/jszip@^3.10.1",
-        "papaparse": "https://esm.sh/papaparse@^5.5.3",
-        "file-saver": "https://esm.sh/file-saver@^2.0.5",
-        "react-router-dom": "https://esm.sh/react-router-dom@^7.7.1",
-        "qrcode.react": "https://esm.sh/qrcode.react@^4.2.0",
-        "jspdf": "https://esm.sh/jspdf@^3.0.1",
-        "lucide-react": "https://esm.sh/lucide-react@^0.535.0",
-        "@vercel/analytics/react": "https://esm.sh/@vercel/analytics@^1.3.1/react"
-      }
-    }
-    </script>
-
-    <!-- Performance Optimizations -->
-    <script>
-      // Service Worker Registration with better error handling
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('/sw.js')
-            .then(function(registration) {
-              console.log('SW registered: ', registration);
-            })
-            .catch(function(registrationError) {
-              console.log('SW registration failed: ', registrationError);
-            });
-        });
-      }
-
-      // Track Core Web Vitals with error handling
-      const trackWebVitals = () => {
-        if (typeof gtag !== 'undefined' && typeof PerformanceObserver !== 'undefined') {
-          try {
-            // Largest Contentful Paint
-            new PerformanceObserver((entryList) => {
-              for (const entry of entryList.getEntries()) {
-                gtag('event', 'web_vitals', {
-                  event_category: 'Web Vitals',
-                  event_label: 'LCP',
-                  value: Math.round(entry.startTime),
-                  non_interaction: true,
-                });
-              }
-            }).observe({entryTypes: ['largest-contentful-paint']});
-
-            // First Input Delay
-            new PerformanceObserver((entryList) => {
-              for (const entry of entryList.getEntries()) {
-                gtag('event', 'web_vitals', {
-                  event_category: 'Web Vitals',
-                  event_label: 'FID',
-                  value: Math.round(entry.processingStart - entry.startTime),
-                  non_interaction: true,
-                });
-              }
-            }).observe({entryTypes: ['first-input']});
-
-            // Cumulative Layout Shift
-            let cls = 0;
-            new PerformanceObserver((entryList) => {
-              for (const entry of entryList.getEntries()) {
-                if (!entry.hadRecentInput) {
-                  cls += entry.value;
-                }
-              }
-              gtag('event', 'web_vitals', {
-                event_category: 'Web Vitals',
-                event_label: 'CLS',
-                value: Math.round(cls * 1000),
-                non_interaction: true,
-              });
-            }).observe({entryTypes: ['layout-shift']});
-          } catch (error) {
-            console.warn('Performance Observer not supported or failed:', error);
-          }
-        }
-      };
-
-      // Initialize performance tracking
-      document.addEventListener('DOMContentLoaded', () => {
-        trackWebVitals();
-      });
     </script>
 
     <!-- Critical CSS -->
@@ -417,8 +286,8 @@
       </div>
     </noscript>
 
-    <!-- React app initialization - CORRECT PATH FOR YOUR SETUP -->
-    <script type="module" src="/index.tsx"></script>
+    <!-- React app initialization - FIXED PATH -->
+    <script type="module" src="/App.tsx"></script>
 
     <!-- Post-load scripts -->
     <script>
@@ -461,57 +330,17 @@
         }
       });
 
-      // Track unhandled promise rejections
-      window.addEventListener('unhandledrejection', function(event) {
-        console.error('Unhandled promise rejection:', event.reason);
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'exception', {
-            'description': 'Unhandled promise rejection: ' + (event.reason || 'Unknown'),
-            'fatal': false
-          });
-        }
-      });
-
-      // Scroll depth tracking
-      let scrollDepths = [25, 50, 75, 100];
-      let scrollDepthReached = [];
-      
-      window.addEventListener('scroll', function() {
-        if (document.body.scrollHeight <= window.innerHeight) return;
-        
-        const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-        
-        scrollDepths.forEach(depth => {
-          if (scrollPercent >= depth && !scrollDepthReached.includes(depth)) {
-            scrollDepthReached.push(depth);
-            if (typeof window.trackScrollDepth === 'function') {
-              window.trackScrollDepth(depth);
-            }
-          }
+      // Service Worker Registration
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js')
+            .then(function(registration) {
+              console.log('SW registered: ', registration);
+            })
+            .catch(function(registrationError) {
+              console.log('SW registration failed: ', registrationError);
+            });
         });
-      });
-
-      // Page visibility tracking
-      document.addEventListener('visibilitychange', function() {
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'page_view_time', {
-            'event_category': 'Engagement',
-            'event_label': document.hidden ? 'hidden' : 'visible',
-            'non_interaction': true
-          });
-        }
-      });
-
-      // Connection quality tracking
-      if ('connection' in navigator) {
-        const connection = navigator.connection;
-        if (typeof gtag !== 'undefined' && connection) {
-          gtag('event', 'network_info', {
-            'event_category': 'Performance',
-            'event_label': connection.effectiveType || 'unknown',
-            'non_interaction': true
-          });
-        }
       }
     </script>
   </body>
