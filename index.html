@@ -405,3 +405,271 @@
   <body class="bg-light">
     <!-- Skip to main content for accessibility -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Loading indicator -->
+    <div id="loading-indicator">
+      <div class="loading-spinner"></div>
+      <p>Loading QR Generator...</p>
+    </div>
+
+    <!-- Main app container -->
+    <div id="root" role="main" aria-label="QR Code Generator Application"></div>
+    
+    <!-- Fallback content for users without JavaScript -->
+    <noscript>
+      <div style="text-align: center; padding: 50px; font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h1 style="color: #212529; margin-bottom: 20px;">QR Pro Generator</h1>
+        <p style="color: #6c757d; margin-bottom: 15px;">This application requires JavaScript to function properly.</p>
+        <p style="color: #6c757d; margin-bottom: 15px;">Please enable JavaScript in your browser to use our free QR code generator.</p>
+        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+          <h3 style="color: #212529; margin-bottom: 15px;">With JavaScript enabled, you can:</h3>
+          <ul style="text-align: left; display: inline-block; color: #6c757d;">
+            <li style="margin-bottom: 8px;">Generate QR codes for URLs, WiFi, business cards</li>
+            <li style="margin-bottom: 8px;">Customize colors and sizes</li>
+            <li style="margin-bottom: 8px;">Download as PNG, SVG, or PDF</li>
+            <li style="margin-bottom: 8px;">Create bulk QR codes from CSV files</li>
+            <li style="margin-bottom: 8px;">No registration required</li>
+            <li style="margin-bottom: 8px;">Free for commercial use</li>
+          </ul>
+        </div>
+        <p style="color: #6c757d; font-size: 12px;">
+          To enable JavaScript: Chrome/Edge: Settings → Privacy → Site Settings → JavaScript. 
+          Firefox: about:config → javascript.enabled. Safari: Preferences → Security → Enable JavaScript.
+        </p>
+      </div>
+    </noscript>
+
+    <!-- React app initialization - FIXED PATH -->
+    <script type="module" src="/src/index.tsx"></script>
+
+    <!-- Post-load scripts -->
+    <script>
+      // Remove loading indicator once React loads
+      window.addEventListener('load', function() {
+        setTimeout(() => {
+          const loadingIndicator = document.getElementById('loading-indicator');
+          if (loadingIndicator) {
+            loadingIndicator.style.opacity = '0';
+            loadingIndicator.style.transition = 'opacity 0.3s ease-out';
+            setTimeout(() => {
+              loadingIndicator.style.display = 'none';
+            }, 300);
+          }
+        }, 1000);
+      });
+
+      // Error boundary for uncaught JavaScript errors
+      window.addEventListener('error', function(event) {
+        console.error('JavaScript error:', event.error);
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'exception', {
+            'description': event.error ? event.error.toString() : 'Unknown error',
+            'fatal': false
+          });
+        }
+        
+        // Show user-friendly error message
+        const loadingIndicator = document.getElementById('loading-indicator');
+        if (loadingIndicator) {
+          loadingIndicator.innerHTML = `
+            <div style="color: #dc3545;">
+              <h3>Oops! Something went wrong</h3>
+              <p>Please refresh the page to try again.</p>
+              <button onclick="window.location.reload()" style="background: #0D6EFD; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                Refresh Page
+              </button>
+            </div>
+          `;
+        }
+      });
+
+      // Track unhandled promise rejections
+      window.addEventListener('unhandledrejection', function(event) {
+        console.error('Unhandled promise rejection:', event.reason);
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'exception', {
+            'description': 'Unhandled promise rejection: ' + (event.reason || 'Unknown'),
+            'fatal': false
+          });
+        }
+      });
+
+      // Scroll depth tracking
+      let scrollDepths = [25, 50, 75, 100];
+      let scrollDepthReached = [];
+      
+      window.addEventListener('scroll', function() {
+        if (document.body.scrollHeight <= window.innerHeight) return; // Skip if no scroll
+        
+        const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+        
+        scrollDepths.forEach(depth => {
+          if (scrollPercent >= depth && !scrollDepthReached.includes(depth)) {
+            scrollDepthReached.push(depth);
+            if (typeof window.trackScrollDepth === 'function') {
+              window.trackScrollDepth(depth);
+            }
+          }
+        });
+      });
+
+      // Page visibility tracking
+      document.addEventListener('visibilitychange', function() {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'page_view_time', {
+            'event_category': 'Engagement',
+            'event_label': document.hidden ? 'hidden' : 'visible',
+            'non_interaction': true
+          });
+        }
+      });
+
+      // Connection quality tracking
+      if ('connection' in navigator) {
+        const connection = navigator.connection;
+        if (typeof gtag !== 'undefined' && connection) {
+          gtag('event', 'network_info', {
+            'event_category': 'Performance',
+            'event_label': connection.effectiveType || 'unknown',
+            'custom_parameter_1': connection.downlink || 0,
+            'non_interaction': true
+          });
+        }
+      }
+
+      // Enhanced resource loading tracking
+      window.addEventListener('load', function() {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'page_load_complete', {
+            'event_category': 'Performance',
+            'event_label': 'full_load',
+            'value': Math.round(performance.now()),
+            'non_interaction': true
+          });
+        }
+      });
+
+      // Track when React app actually starts
+      window.addEventListener('DOMContentLoaded', function() {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'dom_content_loaded', {
+            'event_category': 'Performance',
+            'event_label': 'dom_ready',
+            'value': Math.round(performance.now()),
+            'non_interaction': true
+          });
+        }
+      });
+
+      // Track offline/online status
+      window.addEventListener('online', function() {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'connection_status', {
+            'event_category': 'Performance',
+            'event_label': 'online',
+            'non_interaction': true
+          });
+        }
+      });
+
+      window.addEventListener('offline', function() {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'connection_status', {
+            'event_category': 'Performance',
+            'event_label': 'offline',
+            'non_interaction': true
+          });
+        }
+      });
+
+      // Track page close/refresh events
+      window.addEventListener('beforeunload', function() {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'page_exit', {
+            'event_category': 'Engagement',
+            'event_label': 'beforeunload',
+            'non_interaction': true
+          });
+        }
+      });
+
+      // Track how long users stay on page
+      let pageStartTime = Date.now();
+      window.addEventListener('beforeunload', function() {
+        const timeOnPage = Math.round((Date.now() - pageStartTime) / 1000);
+        if (typeof gtag !== 'undefined' && timeOnPage > 5) { // Only track if more than 5 seconds
+          gtag('event', 'time_on_page', {
+            'event_category': 'Engagement',
+            'event_label': 'seconds',
+            'value': timeOnPage,
+            'non_interaction': true
+          });
+        }
+      });
+
+      // Track button clicks and form interactions
+      document.addEventListener('click', function(event) {
+        if (event.target.tagName === 'BUTTON' || event.target.type === 'submit') {
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'button_click', {
+              'event_category': 'Interaction',
+              'event_label': event.target.textContent || event.target.value || 'unknown_button',
+              'non_interaction': false
+            });
+          }
+        }
+      });
+
+      // Track form submissions
+      document.addEventListener('submit', function(event) {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'form_submit', {
+            'event_category': 'Interaction',
+            'event_label': event.target.id || event.target.className || 'unknown_form',
+            'non_interaction': false
+          });
+        }
+      });
+
+      // Track when users focus on input fields
+      document.addEventListener('focus', function(event) {
+        if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA' || event.target.tagName === 'SELECT') {
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'form_field_focus', {
+              'event_category': 'Interaction',
+              'event_label': event.target.type || event.target.tagName.toLowerCase(),
+              'non_interaction': true
+            });
+          }
+        }
+      }, true);
+
+      // Track right-click events (context menu)
+      document.addEventListener('contextmenu', function(event) {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'right_click', {
+            'event_category': 'Interaction',
+            'event_label': event.target.tagName.toLowerCase(),
+            'non_interaction': true
+          });
+        }
+      });
+
+      // Track keyboard shortcuts
+      document.addEventListener('keydown', function(event) {
+        if (event.ctrlKey || event.metaKey) {
+          const key = event.key.toLowerCase();
+          if (['s', 'p', 'f', 'r', 'z', 'y', 'c', 'v', 'x', 'a'].includes(key)) {
+            if (typeof gtag !== 'undefined') {
+              gtag('event', 'keyboard_shortcut', {
+                'event_category': 'Interaction',
+                'event_label': (event.ctrlKey ? 'ctrl+' : 'cmd+') + key,
+                'non_interaction': true
+              });
+            }
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
