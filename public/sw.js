@@ -95,20 +95,36 @@ self.addEventListener('fetch', (event) => {
                     return cachedResponse;
                 }
                 
-                // Otherwise fetch from network
-                return fetch(request)
+                // Clone request to avoid consuming it
+                const fetchRequest = request.clone();
+                
+                // Otherwise fetch from network with better error handling
+                return fetch(fetchRequest)
                     .then((response) => {
+                        // Check if response is valid
+                        if (!response) {
+                            throw new Error('No response received');
+                        }
+                        
                         // Don't cache error responses
-                        if (!response || response.status !== 200 || response.type !== 'basic') {
+                        if (response.status !== 200) {
                             return response;
                         }
                         
+                        // Don't cache non-basic responses (CORS, etc.)
+                        if (response.type !== 'basic' && response.type !== 'cors') {
+                            return response;
+                        }
+                        
+                        // Clone response before caching
+                        const responseToCache = response.clone();
+                        
                         // Check if we should cache this resource
                         const shouldCache = STATIC_FILES.includes(url.pathname) || 
-                                          CDN_PATTERNS.some(pattern => pattern.test(request.url));
+                                          CDN_PATTERNS.some(pattern => pattern.test(request.url)) ||
+                                          url.pathname.startsWith('/assets/');
                         
                         if (shouldCache) {
-                            const responseToCache = response.clone();
                             const cacheName = STATIC_FILES.includes(url.pathname) ? STATIC_CACHE : DYNAMIC_CACHE;
                             
                             caches.open(cacheName)
@@ -123,14 +139,29 @@ self.addEventListener('fetch', (event) => {
                         return response;
                     })
                     .catch((error) => {
-                        console.error('Service Worker: Fetch failed', request.url, error);
+                        console.warn('Service Worker: Fetch failed for', request.url, error);
                         
                         // Return offline page for navigation requests
                         if (request.destination === 'document') {
-                            return caches.match('/index.html');
+                            return caches.match('/index.html')
+                                .then(response => {
+                                    if (response) {
+                                        return response;
+                                    }
+                                    return new Response('Offline - Please check your connection', { 
+                                        status: 503,
+                                        statusText: 'Service Unavailable',
+                                        headers: { 'Content-Type': 'text/plain' }
+                                    });
+                                });
                         }
                         
-                        throw error;
+                        // For other resources, return a generic error response
+                        return new Response('Network error', { 
+                            status: 503,
+                            statusText: 'Service Unavailable',
+                            headers: { 'Content-Type': 'text/plain' }
+                        });
                     });
             })
     );
@@ -152,7 +183,9 @@ self.addEventListener('message', (event) => {
                 })
             );
         }).then(() => {
-            event.ports[0].postMessage({ success: true });
+            if (event.ports && event.ports[0]) {
+                event.ports[0].postMessage({ success: true });
+            }
         });
     }
 });
@@ -161,7 +194,6 @@ self.addEventListener('message', (event) => {
 self.addEventListener('sync', (event) => {
     if (event.tag === 'qr-code-sync') {
         event.waitUntil(
-            // Handle offline QR code generation
             handleOfflineQRGeneration()
         );
     }
@@ -171,28 +203,32 @@ self.addEventListener('sync', (event) => {
 self.addEventListener('push', (event) => {
     if (!event.data) return;
     
-    const data = event.data.json();
-    const options = {
-        body: data.body || 'New QR code features available!',
-        icon: '/favicon.svg',
-        badge: '/favicon.svg',
-        vibrate: [100, 50, 100],
-        data: data.url || '/',
-        actions: [
-            {
-                action: 'open',
-                title: 'Open App'
-            },
-            {
-                action: 'close',
-                title: 'Close'
-            }
-        ]
-    };
-    
-    event.waitUntil(
-        self.registration.showNotification(data.title || 'QR Pro Generator', options)
-    );
+    try {
+        const data = event.data.json();
+        const options = {
+            body: data.body || 'New QR code features available!',
+            icon: '/favicon.svg',
+            badge: '/favicon.svg',
+            vibrate: [100, 50, 100],
+            data: data.url || '/',
+            actions: [
+                {
+                    action: 'open',
+                    title: 'Open App'
+                },
+                {
+                    action: 'close',
+                    title: 'Close'
+                }
+            ]
+        };
+        
+        event.waitUntil(
+            self.registration.showNotification(data.title || 'QR Pro Generator', options)
+        );
+    } catch (error) {
+        console.error('Service Worker: Error handling push notification', error);
+    }
 });
 
 // Notification click handling
@@ -209,12 +245,7 @@ self.addEventListener('notificationclick', (event) => {
 // Helper function for offline QR generation
 async function handleOfflineQRGeneration() {
     try {
-        // This would handle any queued QR code generations
-        // that were attempted while offline
         console.log('Service Worker: Handling offline QR generation');
-        
-        // Implementation would depend on your offline storage strategy
-        // For now, just log that we're ready
         return Promise.resolve();
     } catch (error) {
         console.error('Service Worker: Offline QR generation failed', error);
