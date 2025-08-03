@@ -8,10 +8,19 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: false,
     assetsDir: 'assets',
+    copyPublicDir: true,
     rollupOptions: {
-      input: './index.html',
+      input: {
+        main: './index.html'
+      },
       output: {
-        manualChunks: undefined,
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          router: ['react-router-dom'],
+          qr: ['qrcode.react'],
+          utils: ['jspdf', 'jszip', 'file-saver', 'papaparse'],
+          icons: ['lucide-react']
+        },
         assetFileNames: 'assets/[name].[hash].[ext]',
         chunkFileNames: 'assets/[name].[hash].js',
         entryFileNames: 'assets/[name].[hash].js'
@@ -20,15 +29,17 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': '/src'
+      '@': new URL('./src', import.meta.url).pathname
     }
   },
   server: {
     host: true,
-    port: 3000
+    port: 3000,
+    open: true
   },
   preview: {
     host: true,
-    port: 3000
+    port: 3000,
+    open: true
   }
 })
