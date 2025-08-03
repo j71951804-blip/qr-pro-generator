@@ -5,7 +5,7 @@ import HomePage from './pages/HomePage';
 import BlogPage from './pages/BlogPage';
 import FaqPage from './pages/FaqPage';
 import ContactPage from './pages/ContactPage';
-import { QrCode, Menu } from 'lucide-react';
+import { Menu } from 'lucide-react';
 
 const Header: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -16,7 +16,11 @@ const Header: React.FC = () => {
                 <div className="flex items-center justify-between h-16">
                     <div className="flex items-center">
                         <NavLink to="/" className="flex items-center space-x-2">
-                            <QrCode className="h-8 w-8 text-primary" />
+                            <img 
+                                src="/logo.svg" 
+                                alt="QR Pro Generator Logo" 
+                                className="h-8 w-8"
+                            />
                             <span className="text-xl font-bold text-dark">QR Pro Generator</span>
                         </NavLink>
                     </div>
