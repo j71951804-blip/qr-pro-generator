@@ -1,4 +1,6 @@
 import { jsPDF } from 'jspdf';
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
 
 // Error handling wrapper
 const handleDownloadError = (error: Error, format: string): void => {
@@ -207,9 +209,6 @@ export const downloadBulkQRs = async (
     onProgress?: (current: number, total: number) => void
 ): Promise<void> => {
     try {
-        const JSZip = (await import('jszip')).default;
-        const { saveAs } = await import('file-saver');
-        
         const zip = new JSZip();
         
         for (let i = 0; i < qrData.length; i++) {
