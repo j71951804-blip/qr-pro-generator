@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter, Routes, Route, NavLink } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
 import HomePage from './pages/HomePage';
 import BlogPage from './pages/BlogPage';
@@ -212,11 +212,9 @@ const ErrorBoundary: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 const App: React.FC = () => {
     return (
         <ErrorBoundary>
-            <HashRouter>
+            <BrowserRouter>
                 <div className="min-h-screen flex flex-col font-sans bg-light">
                     <Header />
-                    
-                    {/* REMOVED: Header Ad Placeholder - This was causing AdSense rejection */}
                     
                     <main className="flex-grow">
                         <Routes>
@@ -263,7 +261,7 @@ const App: React.FC = () => {
                     <Footer />
                     <Analytics />
                 </div>
-            </HashRouter>
+            </BrowserRouter>
         </ErrorBoundary>
     );
 };
