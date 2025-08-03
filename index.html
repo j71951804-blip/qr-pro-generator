@@ -6,9 +6,9 @@
     
     <!-- Favicon and Icons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon.svg" />
     <link rel="manifest" href="/manifest.json" />
     
     <!-- Canonical URL and Robots -->
@@ -159,19 +159,19 @@
     </script>
 
     <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZZXHK3BYV8"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YOUR-ACTUAL-GA4-ID"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-ZZXHK3BYV8', {
+      gtag('config', 'G-YOUR-ACTUAL-GA4-ID', {
         page_title: document.title,
         page_location: window.location.href,
         send_page_view: true
       });
       
       // Enhanced ecommerce and events
-      gtag('config', 'G-ZZXHK3BYV8', {
+      gtag('config', 'G-YOUR-ACTUAL-GA4-ID', {
         custom_map: {
           'custom_parameter_1': 'qr_type',
           'custom_parameter_2': 'download_format'
@@ -232,7 +232,7 @@
       }
     </script>
     
-    <!-- Import Map for ES Modules - FIXED VERSIONS -->
+    <!-- Import Map for ES Modules -->
     <script type="importmap">
     {
       "imports": {
@@ -253,7 +253,7 @@
 
     <!-- Performance Optimizations -->
     <script>
-      // Critical performance improvements
+      // Service Worker Registration
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
           navigator.serviceWorker.register('/sw.js')
@@ -266,68 +266,64 @@
         });
       }
 
-      // Preload critical resources
-      const preloadCriticalResources = () => {
-        const link = document.createElement('link');
-        link.rel = 'preload';
-        link.as = 'script';
-        link.href = '/index.tsx';
-        document.head.appendChild(link);
-      };
-
       // Track Core Web Vitals
       const trackWebVitals = () => {
         if (typeof gtag !== 'undefined') {
           // Largest Contentful Paint
-          new PerformanceObserver((entryList) => {
-            for (const entry of entryList.getEntries()) {
-              gtag('event', 'web_vitals', {
-                event_category: 'Web Vitals',
-                event_label: 'LCP',
-                value: Math.round(entry.startTime),
-                non_interaction: true,
-              });
-            }
-          }).observe({entryTypes: ['largest-contentful-paint']});
+          if (typeof PerformanceObserver !== 'undefined') {
+            try {
+              new PerformanceObserver((entryList) => {
+                for (const entry of entryList.getEntries()) {
+                  gtag('event', 'web_vitals', {
+                    event_category: 'Web Vitals',
+                    event_label: 'LCP',
+                    value: Math.round(entry.startTime),
+                    non_interaction: true,
+                  });
+                }
+              }).observe({entryTypes: ['largest-contentful-paint']});
 
-          // First Input Delay
-          new PerformanceObserver((entryList) => {
-            for (const entry of entryList.getEntries()) {
-              gtag('event', 'web_vitals', {
-                event_category: 'Web Vitals',
-                event_label: 'FID',
-                value: Math.round(entry.processingStart - entry.startTime),
-                non_interaction: true,
-              });
-            }
-          }).observe({entryTypes: ['first-input']});
+              // First Input Delay
+              new PerformanceObserver((entryList) => {
+                for (const entry of entryList.getEntries()) {
+                  gtag('event', 'web_vitals', {
+                    event_category: 'Web Vitals',
+                    event_label: 'FID',
+                    value: Math.round(entry.processingStart - entry.startTime),
+                    non_interaction: true,
+                  });
+                }
+              }).observe({entryTypes: ['first-input']});
 
-          // Cumulative Layout Shift
-          let cls = 0;
-          new PerformanceObserver((entryList) => {
-            for (const entry of entryList.getEntries()) {
-              if (!entry.hadRecentInput) {
-                cls += entry.value;
-              }
+              // Cumulative Layout Shift
+              let cls = 0;
+              new PerformanceObserver((entryList) => {
+                for (const entry of entryList.getEntries()) {
+                  if (!entry.hadRecentInput) {
+                    cls += entry.value;
+                  }
+                }
+                gtag('event', 'web_vitals', {
+                  event_category: 'Web Vitals',
+                  event_label: 'CLS',
+                  value: Math.round(cls * 1000),
+                  non_interaction: true,
+                });
+              }).observe({entryTypes: ['layout-shift']});
+            } catch (error) {
+              console.warn('Performance Observer not supported or failed:', error);
             }
-            gtag('event', 'web_vitals', {
-              event_category: 'Web Vitals',
-              event_label: 'CLS',
-              value: Math.round(cls * 1000),
-              non_interaction: true,
-            });
-          }).observe({entryTypes: ['layout-shift']});
+          }
         }
       };
 
       // Initialize performance tracking
       document.addEventListener('DOMContentLoaded', () => {
-        preloadCriticalResources();
         trackWebVitals();
       });
     </script>
 
-    <!-- Accessibility Improvements -->
+    <!-- Accessibility and Critical CSS -->
     <style>
       /* Critical CSS for above-the-fold content */
       .loading-spinner {
@@ -361,6 +357,7 @@
         text-decoration: none;
         z-index: 1000;
         border-radius: 4px;
+        font-family: system-ui, sans-serif;
       }
       
       .skip-link:focus {
@@ -375,6 +372,32 @@
           transition-duration: 0.01ms !important;
         }
       }
+
+      /* Loading state styles */
+      #loading-indicator {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        font-family: system-ui, sans-serif;
+      }
+
+      #loading-indicator p {
+        margin-top: 10px;
+        color: #6C757D;
+        font-size: 14px;
+      }
+
+      /* Ensure proper font loading */
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
     </style>
   </head>
   
@@ -383,9 +406,9 @@
     <a href="#main-content" class="skip-link">Skip to main content</a>
     
     <!-- Loading indicator -->
-    <div id="loading-indicator" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;">
+    <div id="loading-indicator">
       <div class="loading-spinner"></div>
-      <p style="margin-top: 10px; text-align: center; color: #6C757D;">Loading QR Generator...</p>
+      <p>Loading QR Generator...</p>
     </div>
 
     <!-- Main app container -->
@@ -393,30 +416,43 @@
     
     <!-- Fallback content for users without JavaScript -->
     <noscript>
-      <div style="text-align: center; padding: 50px; font-family: system-ui, sans-serif;">
-        <h1>QR Pro Generator</h1>
-        <p>This application requires JavaScript to function properly.</p>
-        <p>Please enable JavaScript in your browser to use our free QR code generator.</p>
-        <p>With JavaScript enabled, you can:</p>
-        <ul style="text-align: left; display: inline-block;">
-          <li>Generate QR codes for URLs, WiFi, business cards</li>
-          <li>Customize colors and sizes</li>
-          <li>Download as PNG, SVG, or PDF</li>
-          <li>Create bulk QR codes from CSV files</li>
-        </ul>
+      <div style="text-align: center; padding: 50px; font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h1 style="color: #212529; margin-bottom: 20px;">QR Pro Generator</h1>
+        <p style="color: #6c757d; margin-bottom: 15px;">This application requires JavaScript to function properly.</p>
+        <p style="color: #6c757d; margin-bottom: 15px;">Please enable JavaScript in your browser to use our free QR code generator.</p>
+        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+          <h3 style="color: #212529; margin-bottom: 15px;">With JavaScript enabled, you can:</h3>
+          <ul style="text-align: left; display: inline-block; color: #6c757d;">
+            <li style="margin-bottom: 8px;">Generate QR codes for URLs, WiFi, business cards</li>
+            <li style="margin-bottom: 8px;">Customize colors and sizes</li>
+            <li style="margin-bottom: 8px;">Download as PNG, SVG, or PDF</li>
+            <li style="margin-bottom: 8px;">Create bulk QR codes from CSV files</li>
+            <li style="margin-bottom: 8px;">No registration required</li>
+            <li style="margin-bottom: 8px;">Free for commercial use</li>
+          </ul>
+        </div>
+        <p style="color: #6c757d; font-size: 12px;">
+          To enable JavaScript: Chrome/Edge: Settings → Privacy → Site Settings → JavaScript. 
+          Firefox: about:config → javascript.enabled. Safari: Preferences → Security → Enable JavaScript.
+        </p>
       </div>
     </noscript>
 
     <!-- React app initialization -->
-    <script type="module" src="/index.tsx"></script>
+    <script type="module" src="/src/index.tsx"></script>
 
-    <!-- Remove loading indicator once React loads -->
+    <!-- Post-load scripts -->
     <script>
+      // Remove loading indicator once React loads
       window.addEventListener('load', function() {
         setTimeout(() => {
           const loadingIndicator = document.getElementById('loading-indicator');
           if (loadingIndicator) {
-            loadingIndicator.style.display = 'none';
+            loadingIndicator.style.opacity = '0';
+            loadingIndicator.style.transition = 'opacity 0.3s ease-out';
+            setTimeout(() => {
+              loadingIndicator.style.display = 'none';
+            }, 300);
           }
         }, 1000);
       });
@@ -424,28 +460,46 @@
       // Error boundary for uncaught JavaScript errors
       window.addEventListener('error', function(event) {
         console.error('JavaScript error:', event.error);
-        gtag('event', 'exception', {
-          'description': event.error.toString(),
-          'fatal': false
-        });
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'exception', {
+            'description': event.error ? event.error.toString() : 'Unknown error',
+            'fatal': false
+          });
+        }
+        
+        // Show user-friendly error message
+        const loadingIndicator = document.getElementById('loading-indicator');
+        if (loadingIndicator) {
+          loadingIndicator.innerHTML = `
+            <div style="color: #dc3545;">
+              <h3>Oops! Something went wrong</h3>
+              <p>Please refresh the page to try again.</p>
+              <button onclick="window.location.reload()" style="background: #0D6EFD; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                Refresh Page
+              </button>
+            </div>
+          `;
+        }
       });
 
       // Track unhandled promise rejections
       window.addEventListener('unhandledrejection', function(event) {
         console.error('Unhandled promise rejection:', event.reason);
-        gtag('event', 'exception', {
-          'description': 'Unhandled promise rejection: ' + event.reason,
-          'fatal': false
-        });
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'exception', {
+            'description': 'Unhandled promise rejection: ' + (event.reason || 'Unknown'),
+            'fatal': false
+          });
+        }
       });
-    </script>
 
-    <!-- Scroll depth tracking -->
-    <script>
+      // Scroll depth tracking
       let scrollDepths = [25, 50, 75, 100];
       let scrollDepthReached = [];
       
       window.addEventListener('scroll', function() {
+        if (document.body.scrollHeight <= window.innerHeight) return; // Skip if no scroll
+        
         const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
         
         scrollDepths.forEach(depth => {
@@ -457,6 +511,30 @@
           }
         });
       });
+
+      // Page visibility tracking
+      document.addEventListener('visibilitychange', function() {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'page_view_time', {
+            'event_category': 'Engagement',
+            'event_label': document.hidden ? 'hidden' : 'visible',
+            'non_interaction': true
+          });
+        }
+      });
+
+      // Connection quality tracking
+      if ('connection' in navigator) {
+        const connection = navigator.connection;
+        if (typeof gtag !== 'undefined' && connection) {
+          gtag('event', 'network_info', {
+            'event_category': 'Performance',
+            'event_label': connection.effectiveType || 'unknown',
+            'custom_parameter_1': connection.downlink || 0,
+            'non_interaction': true
+          });
+        }
+      }
     </script>
   </body>
 </html>
