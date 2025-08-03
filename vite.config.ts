@@ -25,12 +25,12 @@ export default defineConfig({
           analytics: ['@vercel/analytics']
         },
         assetFileNames: (assetInfo) => {
-          const info = assetInfo.name.split('.')
-          const extType = info[info.length - 1]
-          if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico)$/i.test(assetInfo.name)) {
+          const info = assetInfo.name?.split('.') || [];
+          const extType = info[info.length - 1];
+          if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico)$/i.test(assetInfo.name || '')) {
             return `assets/images/[name].[hash].[ext]`
           }
-          if (/\.(woff2?|eot|ttf|otf)$/i.test(assetInfo.name)) {
+          if (/\.(woff2?|eot|ttf|otf)$/i.test(assetInfo.name || '')) {
             return `assets/fonts/[name].[hash].[ext]`
           }
           return `assets/[name].[hash].[ext]`
@@ -41,13 +41,8 @@ export default defineConfig({
     },
     // Ensure compatibility with older browsers
     target: 'es2015',
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true
-      }
-    }
+    minify: 'esbuild', // Use esbuild instead of terser
+    // Remove terser options since we're using esbuild
   },
   resolve: {
     alias: {
