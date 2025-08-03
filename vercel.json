@@ -9,22 +9,6 @@
       }
     }
   ],
-  "routes": [
-    {
-      "src": "^/www\\.(.*)$",
-      "status": 301,
-      "headers": {
-        "Location": "https://qr-pro-generator.com/$1"
-      }
-    },
-    {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/.*",
-      "dest": "/index.html"
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -88,6 +72,11 @@
       "source": "/www.qr-pro-generator.com/(.*)",
       "destination": "https://qr-pro-generator.com/$1",
       "permanent": true
+    },
+    {
+      "source": "/www/(.*)",
+      "destination": "https://qr-pro-generator.com/$1",
+      "permanent": true
     }
   ],
   "rewrites": [
@@ -95,5 +84,7 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ]
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false
 }
