@@ -16,15 +16,34 @@
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
   ],
   "screenshots": [
     {
       "src": "/favicon.svg",
-      "sizes": "512x512",
+      "sizes": "1280x720",
       "type": "image/svg+xml",
       "platform": "wide",
       "label": "QR code generator with customization options"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "390x844",
+      "type": "image/svg+xml",
+      "platform": "narrow",
+      "label": "Mobile QR code generator"
     }
   ],
   "shortcuts": [
