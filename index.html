@@ -6,9 +6,9 @@
     
     <!-- Favicon and Icons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="manifest" href="/manifest.json" />
     
     <!-- Canonical URL and Robots -->
@@ -31,7 +31,7 @@
     <meta property="og:url" content="https://qr-pro-generator.com/" />
     <meta property="og:title" content="Free QR Code Generator - Create Custom QR Codes Instantly" />
     <meta property="og:description" content="Generate free QR codes for URLs, WiFi, business cards, and more. Download as PNG, SVG, or PDF. No registration required. Used by 50,000+ businesses." />
-    <meta property="og:image" content="https://qr-pro-generator.com/favicon.svg" />
+    <meta property="og:image" content="https://qr-pro-generator.com/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content="QR Pro Generator" />
@@ -42,10 +42,13 @@
     <meta property="twitter:url" content="https://qr-pro-generator.com/" />
     <meta property="twitter:title" content="Free QR Code Generator - Create Custom QR Codes Instantly" />
     <meta property="twitter:description" content="Generate free QR codes for URLs, WiFi, business cards, and more. Download as PNG, SVG, or PDF. No registration required." />
-    <meta property="twitter:image" content="https://qr-pro-generator.com/favicon.svg" />
+    <meta property="twitter:image" content="https://qr-pro-generator.com/twitter-card.png" />
     <meta property="twitter:image:alt" content="QR Pro Generator - Free QR Code Creator" />
     <meta property="twitter:creator" content="@QRProGenerator" />
     <meta property="twitter:site" content="@QRProGenerator" />
+
+    <!-- LinkedIn -->
+    <meta property="linkedin:owner" content="QR Pro Generator" />
 
     <!-- Additional SEO Meta Tags -->
     <meta name="rating" content="general" />
@@ -58,10 +61,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin />
+    <link rel="preconnect" href="https://esm.sh" crossorigin />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
     
     <!-- DNS Prefetch -->
     <link rel="dns-prefetch" href="//www.google-analytics.com" />
     <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="//pagead2.googlesyndication.com" />
 
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json">
@@ -105,7 +111,7 @@
         "No Registration Required",
         "Commercial Use Allowed"
       ],
-      "screenshot": "https://qr-pro-generator.com/favicon.svg",
+      "screenshot": "https://qr-pro-generator.com/screenshot.png",
       "aggregateRating": {
         "@type": "AggregateRating",
         "ratingValue": "4.8",
@@ -133,16 +139,43 @@
     }
     </script>
 
+    <!-- Website Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "QR Pro Generator",
+      "url": "https://qr-pro-generator.com/",
+      "description": "Free QR code generator for businesses and individuals",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://qr-pro-generator.com/?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
     <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YOUR-ACTUAL-GA4-ID"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZZXHK3BYV8"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-YOUR-ACTUAL-GA4-ID', {
+      gtag('config', 'G-ZZXHK3BYV8', {
         page_title: document.title,
         page_location: window.location.href,
         send_page_view: true
+      });
+      
+      // Enhanced ecommerce and events
+      gtag('config', 'G-ZZXHK3BYV8', {
+        custom_map: {
+          'custom_parameter_1': 'qr_type',
+          'custom_parameter_2': 'download_format'
+        }
       });
       
       // Track QR code generations
@@ -162,6 +195,15 @@
           'event_label': format,
           'value': 1,
           'download_format': format
+        });
+      };
+
+      // Track page scroll depth
+      window.trackScrollDepth = function(depth) {
+        gtag('event', 'scroll', {
+          'event_category': 'Engagement',
+          'event_label': depth + '%',
+          'value': depth
         });
       };
     </script>
@@ -189,9 +231,98 @@
         },
       }
     </script>
+    
+    <!-- Import Map for ES Modules -->
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@^19.1.1",
+        "react-dom/": "https://esm.sh/react-dom@^19.1.1/",
+        "react/": "https://esm.sh/react@^19.1.1/",
+        "jszip": "https://esm.sh/jszip@^3.10.1",
+        "papaparse": "https://esm.sh/papaparse@^5.5.3",
+        "file-saver": "https://esm.sh/file-saver@^2.0.5",
+        "react-router-dom": "https://esm.sh/react-router-dom@^7.7.1",
+        "qrcode.react": "https://esm.sh/qrcode.react@^4.2.0",
+        "jspdf": "https://esm.sh/jspdf@^3.0.1",
+        "lucide-react": "https://esm.sh/lucide-react@^0.535.0",
+        "@vercel/analytics/react": "https://esm.sh/@vercel/analytics@^1.3.1/react"
+      }
+    }
+    </script>
 
-    <!-- Critical CSS -->
+    <!-- Performance Optimizations -->
+    <script>
+      // Critical performance improvements
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js')
+            .then(function(registration) {
+              console.log('SW registered: ', registration);
+            })
+            .catch(function(registrationError) {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+
+      // FIXED: Remove the problematic preload function that references index.tsx
+      // The original function was trying to preload '/index.tsx' which doesn't exist
+
+      // Track Core Web Vitals
+      const trackWebVitals = () => {
+        if (typeof gtag !== 'undefined') {
+          // Largest Contentful Paint
+          new PerformanceObserver((entryList) => {
+            for (const entry of entryList.getEntries()) {
+              gtag('event', 'web_vitals', {
+                event_category: 'Web Vitals',
+                event_label: 'LCP',
+                value: Math.round(entry.startTime),
+                non_interaction: true,
+              });
+            }
+          }).observe({entryTypes: ['largest-contentful-paint']});
+
+          // First Input Delay
+          new PerformanceObserver((entryList) => {
+            for (const entry of entryList.getEntries()) {
+              gtag('event', 'web_vitals', {
+                event_category: 'Web Vitals',
+                event_label: 'FID',
+                value: Math.round(entry.processingStart - entry.startTime),
+                non_interaction: true,
+              });
+            }
+          }).observe({entryTypes: ['first-input']});
+
+          // Cumulative Layout Shift
+          let cls = 0;
+          new PerformanceObserver((entryList) => {
+            for (const entry of entryList.getEntries()) {
+              if (!entry.hadRecentInput) {
+                cls += entry.value;
+              }
+            }
+            gtag('event', 'web_vitals', {
+              event_category: 'Web Vitals',
+              event_label: 'CLS',
+              value: Math.round(cls * 1000),
+              non_interaction: true,
+            });
+          }).observe({entryTypes: ['layout-shift']});
+        }
+      };
+
+      // Initialize performance tracking
+      document.addEventListener('DOMContentLoaded', () => {
+        trackWebVitals();
+      });
+    </script>
+
+    <!-- Accessibility Improvements -->
     <style>
+      /* Critical CSS for above-the-fold content */
       .loading-spinner {
         display: inline-block;
         width: 20px;
@@ -206,6 +337,13 @@
         to { transform: rotate(360deg); }
       }
 
+      /* Focus indicators for accessibility */
+      .focus\:ring-2:focus {
+        outline: 2px solid #0D6EFD;
+        outline-offset: 2px;
+      }
+
+      /* Skip to main content link */
       .skip-link {
         position: absolute;
         top: -40px;
@@ -216,33 +354,13 @@
         text-decoration: none;
         z-index: 1000;
         border-radius: 4px;
-        font-family: system-ui, sans-serif;
       }
       
       .skip-link:focus {
         top: 6px;
       }
 
-      #loading-indicator {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 9999;
-        background: rgba(255, 255, 255, 0.95);
-        padding: 2rem;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        font-family: system-ui, sans-serif;
-      }
-
-      body {
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        margin: 0;
-        padding: 0;
-      }
-
+      /* Reduced motion preferences */
       @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after {
           animation-duration: 0.01ms !important;
@@ -251,6 +369,9 @@
         }
       }
     </style>
+
+    <!-- Built app bundle -->
+    <script type="module" crossorigin src="/assets/index.COvuktMZ.js"></script>
   </head>
   
   <body class="bg-light">
@@ -258,9 +379,9 @@
     <a href="#main-content" class="skip-link">Skip to main content</a>
     
     <!-- Loading indicator -->
-    <div id="loading-indicator">
+    <div id="loading-indicator" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;">
       <div class="loading-spinner"></div>
-      <p style="margin-top: 10px; color: #6C757D; font-size: 14px;">Loading QR Generator...</p>
+      <p style="margin-top: 10px; text-align: center; color: #6C757D;">Loading QR Generator...</p>
     </div>
 
     <!-- Main app container -->
@@ -268,39 +389,27 @@
     
     <!-- Fallback content for users without JavaScript -->
     <noscript>
-      <div style="text-align: center; padding: 50px; font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h1 style="color: #212529; margin-bottom: 20px;">QR Pro Generator</h1>
-        <p style="color: #6c757d; margin-bottom: 15px;">This application requires JavaScript to function properly.</p>
-        <p style="color: #6c757d; margin-bottom: 15px;">Please enable JavaScript in your browser to use our free QR code generator.</p>
-        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-          <h3 style="color: #212529; margin-bottom: 15px;">With JavaScript enabled, you can:</h3>
-          <ul style="text-align: left; display: inline-block; color: #6c757d;">
-            <li style="margin-bottom: 8px;">Generate QR codes for URLs, WiFi, business cards</li>
-            <li style="margin-bottom: 8px;">Customize colors and sizes</li>
-            <li style="margin-bottom: 8px;">Download as PNG, SVG, or PDF</li>
-            <li style="margin-bottom: 8px;">Create bulk QR codes from CSV files</li>
-            <li style="margin-bottom: 8px;">No registration required</li>
-            <li style="margin-bottom: 8px;">Free for commercial use</li>
-          </ul>
-        </div>
+      <div style="text-align: center; padding: 50px; font-family: system-ui, sans-serif;">
+        <h1>QR Pro Generator</h1>
+        <p>This application requires JavaScript to function properly.</p>
+        <p>Please enable JavaScript in your browser to use our free QR code generator.</p>
+        <p>With JavaScript enabled, you can:</p>
+        <ul style="text-align: left; display: inline-block;">
+          <li>Generate QR codes for URLs, WiFi, business cards</li>
+          <li>Customize colors and sizes</li>
+          <li>Download as PNG, SVG, or PDF</li>
+          <li>Create bulk QR codes from CSV files</li>
+        </ul>
       </div>
     </noscript>
 
-    <!-- FIXED: Point to the correct entry file in root -->
-    <script type="module" src="/main.tsx"></script>
-
-    <!-- Post-load scripts -->
+    <!-- Remove loading indicator once React loads -->
     <script>
-      // Remove loading indicator once React loads
       window.addEventListener('load', function() {
         setTimeout(() => {
           const loadingIndicator = document.getElementById('loading-indicator');
           if (loadingIndicator) {
-            loadingIndicator.style.opacity = '0';
-            loadingIndicator.style.transition = 'opacity 0.3s ease-out';
-            setTimeout(() => {
-              loadingIndicator.style.display = 'none';
-            }, 300);
+            loadingIndicator.style.display = 'none';
           }
         }, 1000);
       });
@@ -308,40 +417,39 @@
       // Error boundary for uncaught JavaScript errors
       window.addEventListener('error', function(event) {
         console.error('JavaScript error:', event.error);
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'exception', {
-            'description': event.error ? event.error.toString() : 'Unknown error',
-            'fatal': false
-          });
-        }
-        
-        // Show user-friendly error message
-        const loadingIndicator = document.getElementById('loading-indicator');
-        if (loadingIndicator) {
-          loadingIndicator.innerHTML = `
-            <div style="color: #dc3545;">
-              <h3>Oops! Something went wrong</h3>
-              <p>Please refresh the page to try again.</p>
-              <button onclick="window.location.reload()" style="background: #0D6EFD; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
-                Refresh Page
-              </button>
-            </div>
-          `;
-        }
+        gtag('event', 'exception', {
+          'description': event.error.toString(),
+          'fatal': false
+        });
       });
 
-      // Service Worker Registration
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('/sw.js')
-            .then(function(registration) {
-              console.log('SW registered: ', registration);
-            })
-            .catch(function(registrationError) {
-              console.log('SW registration failed: ', registrationError);
-            });
+      // Track unhandled promise rejections
+      window.addEventListener('unhandledrejection', function(event) {
+        console.error('Unhandled promise rejection:', event.reason);
+        gtag('event', 'exception', {
+          'description': 'Unhandled promise rejection: ' + event.reason,
+          'fatal': false
         });
-      }
+      });
+    </script>
+
+    <!-- Scroll depth tracking -->
+    <script>
+      let scrollDepths = [25, 50, 75, 100];
+      let scrollDepthReached = [];
+      
+      window.addEventListener('scroll', function() {
+        const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+        
+        scrollDepths.forEach(depth => {
+          if (scrollPercent >= depth && !scrollDepthReached.includes(depth)) {
+            scrollDepthReached.push(depth);
+            if (typeof window.trackScrollDepth === 'function') {
+              window.trackScrollDepth(depth);
+            }
+          }
+        });
+      });
     </script>
   </body>
 </html>
