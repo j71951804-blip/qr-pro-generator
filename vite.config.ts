@@ -39,7 +39,6 @@ export default defineConfig({
         entryFileNames: 'assets/js/[name].[hash].js'
       }
     },
-    // Ensure compatibility with older browsers
     target: 'es2015',
     minify: 'terser',
     terserOptions: {
@@ -54,9 +53,7 @@ export default defineConfig({
       '@': resolve(__dirname, './'),
       '@components': resolve(__dirname, './components'),
       '@pages': resolve(__dirname, './pages'),
-      '@services': resolve(__dirname, './services'),
-      '@constants': resolve(__dirname, './constants.ts'),
-      '@types': resolve(__dirname, './types.ts')
+      '@services': resolve(__dirname, './services')
     }
   },
   server: {
@@ -73,7 +70,6 @@ export default defineConfig({
     strictPort: false
   },
   define: {
-    // Replace env variables at build time
     __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
     __BUILD_DATE__: JSON.stringify(new Date().toISOString()),
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
@@ -91,14 +87,5 @@ export default defineConfig({
       'papaparse',
       '@vercel/analytics'
     ]
-  },
-  css: {
-    postcss: {
-      plugins: []
-    }
-  },
-  esbuild: {
-    // Remove console.log in production
-    drop: process.env.NODE_ENV === 'production' ? ['console', 'debugger'] : []
   }
 })
