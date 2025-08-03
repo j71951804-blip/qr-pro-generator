@@ -7,6 +7,25 @@ import FaqPage from './pages/FaqPage';
 import ContactPage from './pages/ContactPage';
 import { Menu } from 'lucide-react';
 
+// Tech QR Logo Component
+const TechQRLogo: React.FC<{ className?: string }> = ({ className = "h-8 w-8" }) => (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" className={className}>
+        <rect x="2" y="2" width="7" height="7" rx="1" fill="#0d6efd"/>
+        <rect x="2" y="23" width="7" height="7" rx="1" fill="#0d6efd"/>
+        <rect x="23" y="2" width="7" height="7" rx="1" fill="#0d6efd"/>
+        <rect x="11" y="11" width="10" height="10" rx="2" fill="#6c757d" opacity="0.3"/>
+        <rect x="13" y="13" width="6" height="6" rx="1" fill="#0d6efd"/>
+        <rect x="23" y="13" width="2" height="2" fill="#0d6efd"/>
+        <rect x="27" y="13" width="2" height="2" fill="#0d6efd"/>
+        <rect x="23" y="17" width="2" height="2" fill="#0d6efd"/>
+        <rect x="27" y="17" width="2" height="2" fill="#0d6efd"/>
+        <rect x="11" y="23" width="3" height="3" fill="#0d6efd"/>
+        <rect x="16" y="23" width="3" height="3" fill="#0d6efd"/>
+        <rect x="21" y="23" width="3" height="3" fill="#0d6efd"/>
+        <rect x="26" y="23" width="3" height="3" fill="#0d6efd"/>
+    </svg>
+);
+
 const Header: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
@@ -16,11 +35,7 @@ const Header: React.FC = () => {
                 <div className="flex items-center justify-between h-16">
                     <div className="flex items-center">
                         <NavLink to="/" className="flex items-center space-x-2">
-                            <img 
-                                src="/logo.svg" 
-                                alt="QR Pro Generator Logo" 
-                                className="h-8 w-8"
-                            />
+                            <TechQRLogo className="h-8 w-8" />
                             <span className="text-xl font-bold text-dark">QR Pro Generator</span>
                         </NavLink>
                     </div>
