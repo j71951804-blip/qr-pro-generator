@@ -4,8 +4,8 @@ import { QrCodeType, VCardData, WifiData, EmailData, SmsData } from '../../types
 import { DEFAULT_QR_CODE_OPTIONS } from '../../constants';
 import { Link, Type, Mail, Phone, MessageSquare, Wifi, User, Settings, Download, Twitter, Facebook, Linkedin, AlertCircle } from 'lucide-react';
 import { downloadSvg, downloadPng, downloadPdf, sanitizeFileName } from '../../services/downloadService';
-import * as Papa from 'papaparse';
-import saveAs from 'file-saver';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 import { QRCodeTips } from '../content/QRCodeTips';
 
