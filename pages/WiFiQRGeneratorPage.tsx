@@ -118,7 +118,7 @@ const WiFiQRGeneratorPage: React.FC = () => {
                                     <p className="text-secondary text-center mb-6">
                                         Enter your WiFi network details below to generate a QR code that automatically connects devices to your network.
                                     </p>
-                                    <QrCodeGenerator defaultType="wifi" />
+                                    <QrCodeGenerator />
                                 </div>
 
                                 {/* Benefits Section */}
