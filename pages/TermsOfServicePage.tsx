@@ -70,4 +70,96 @@ const TermsOfServicePage: React.FC = () => {
 
             <h3 className="text-xl font-semibold text-dark mt-6 mb-3">7.2 QR Code Functionality</h3>
             <p className="text-secondary mb-4">
-              While we strive to generate functional QR codes, we do not guarantee that all generated QR codes will work perfectly across
+              While we strive to generate functional QR codes, we do not guarantee that all generated QR codes will work perfectly across all devices and QR code readers. We recommend testing your QR codes before deployment.
+            </p>
+
+            <h2 className="text-2xl font-bold text-dark mt-8 mb-4">8. Limitation of Liability</h2>
+            <p className="text-secondary mb-4">
+              In no event shall QR Pro Generator, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your use of the Service.
+            </p>
+
+            <h2 className="text-2xl font-bold text-dark mt-8 mb-4">9. Indemnification</h2>
+            <p className="text-secondary mb-4">
+              You agree to defend, indemnify, and hold harmless QR Pro Generator and its licensee and licensors, and their employees, contractors, agents, officers and directors, from and against any and all claims, damages, obligations, losses, liabilities, costs or debt, and expenses (including but not limited to attorney's fees).
+            </p>
+
+            <h2 className="text-2xl font-bold text-dark mt-8 mb-4">10. Termination</h2>
+            <p className="text-secondary mb-4">
+              We may terminate or suspend your access immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms. Upon termination, your right to use the Service will cease immediately.
+            </p>
+
+            <h2 className="text-2xl font-bold text-dark mt-8 mb-4">11. Third-Party Services</h2>
+            <p className="text-secondary mb-4">
+              Our Service may contain links to third-party websites or services that are not owned or controlled by QR Pro Generator. We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third-party websites or services.
+            </p>
+
+            <h2 className="text-2xl font-bold text-dark mt-8 mb-4">12. Advertising and Affiliate Links</h2>
+            <p className="text-secondary mb-4">
+              Our Service may display advertisements and contain affiliate links. We may receive compensation when you click on or purchase through these links. This does not affect the cost to you or influence our editorial decisions.
+            </p>
+
+            <h2 className="text-2xl font-bold text-dark mt-8 mb-4">13. Changes to Terms</h2>
+            <p className="text-secondary mb-4">
+              We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will try to provide at least 30 days notice prior to any new terms taking effect.
+            </p>
+
+            <h2 className="text-2xl font-bold text-dark mt-8 mb-4">14. Governing Law</h2>
+            <p className="text-secondary mb-4">
+              These Terms shall be interpreted and governed by the laws of the United States, without regard to its conflict of law provisions. Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights.
+            </p>
+
+            <h2 className="text-2xl font-bold text-dark mt-8 mb-4">15. Severability</h2>
+            <p className="text-secondary mb-4">
+              If any provision of these Terms is held to be invalid or unenforceable by a court, the remaining provisions of these Terms will remain in effect.
+            </p>
+
+            <h2 className="text-2xl font-bold text-dark mt-8 mb-4">16. Entire Agreement</h2>
+            <p className="text-secondary mb-4">
+              These Terms constitute the sole and entire agreement between you and QR Pro Generator regarding the Service and supersede all prior and contemporaneous understandings, agreements, representations, and warranties.
+            </p>
+
+            <h2 className="text-2xl font-bold text-dark mt-8 mb-4">17. Age Restrictions</h2>
+            <p className="text-secondary mb-4">
+              The Service is intended for users who are at least 13 years old. If you are under 13, you may not use the Service. If you are between 13 and 18, you may use the Service only with the permission and supervision of a parent or guardian.
+            </p>
+
+            <h2 className="text-2xl font-bold text-dark mt-8 mb-4">18. International Users</h2>
+            <p className="text-secondary mb-4">
+              The Service is operated from the United States. If you are accessing the Service from outside the United States, you are responsible for compliance with local laws and regulations.
+            </p>
+
+            <h2 className="text-2xl font-bold text-dark mt-8 mb-4">19. Digital Millennium Copyright Act (DMCA)</h2>
+            <p className="text-secondary mb-4">
+              We respect the intellectual property rights of others. If you believe that any content on our Service infringes your copyright, please contact us with a detailed DMCA notice. We will respond to valid DMCA notices in accordance with applicable law.
+            </p>
+
+            <h2 className="text-2xl font-bold text-dark mt-8 mb-4">20. Contact Information</h2>
+            <p className="text-secondary mb-4">
+              If you have any questions about these Terms of Service, please contact us:
+            </p>
+            <ul className="list-none text-secondary mb-4">
+              <li>Email: legal@qr-pro-generator.com</li>
+              <li>Website: https://qr-pro-generator.com/contact</li>
+              <li>Address: QR Pro Generator Legal Department</li>
+            </ul>
+
+            <div className="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <h3 className="font-semibold text-blue-800 mb-2">Summary for Users:</h3>
+              <ul className="text-sm text-blue-700 space-y-1">
+                <li>✅ Free to use for personal and commercial purposes</li>
+                <li>✅ You own the QR codes you create</li>
+                <li>✅ No registration required</li>
+                <li>✅ Your data is processed locally in your browser</li>
+                <li>⚠️ Use responsibly and lawfully</li>
+                <li>⚠️ Test QR codes before important deployments</li>
+                <li>⚠️ Service provided "as is" without warranties</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default TermsOfServicePage;
