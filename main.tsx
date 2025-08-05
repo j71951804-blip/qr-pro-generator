@@ -4,16 +4,12 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import ErrorBoundary from './components/ErrorBoundary'
 import { registerSW, setupPWAInstall } from './utils/serviceWorker'
-import { analytics } from './services/analytics'
 import './index.css'
 
 const rootElement = document.getElementById('root')
 if (!rootElement) {
   throw new Error('Root element not found')
 }
-
-// Initialize analytics
-analytics;
 
 // Register service worker
 registerSW();
@@ -24,8 +20,8 @@ setupPWAInstall();
 // Global error handler
 window.addEventListener('error', (event) => {
   console.error('Global error:', event.error);
-  if (typeof window.gtag !== 'undefined') {
-    window.gtag('event', 'exception', {
+  if (typeof (window as any).gtag !== 'undefined') {
+    (window as any).gtag('event', 'exception', {
       description: event.error?.message || 'Unknown error',
       fatal: false,
       filename: event.filename,
@@ -38,8 +34,8 @@ window.addEventListener('error', (event) => {
 // Unhandled promise rejection handler
 window.addEventListener('unhandledrejection', (event) => {
   console.error('Unhandled promise rejection:', event.reason);
-  if (typeof window.gtag !== 'undefined') {
-    window.gtag('event', 'exception', {
+  if (typeof (window as any).gtag !== 'undefined') {
+    (window as any).gtag('event', 'exception', {
       description: event.reason?.message || 'Unhandled promise rejection',
       fatal: false,
       promise_rejection: true
