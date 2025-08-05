@@ -1,3 +1,4 @@
+// App.tsx - Updated with SEO Routes
 import React from 'react';
 import { HashRouter, Routes, Route, NavLink } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
@@ -5,6 +6,8 @@ import HomePage from './pages/HomePage';
 import BlogPage from './pages/BlogPage';
 import FaqPage from './pages/FaqPage';
 import ContactPage from './pages/ContactPage';
+import WiFiQRGeneratorPage from './pages/WiFiQRGeneratorPage';
+// For now, we'll redirect business card to main generator
 import { Menu } from 'lucide-react';
 
 // Tech QR Logo Component
@@ -52,6 +55,45 @@ const Header: React.FC = () => {
                         >
                             Generator
                         </NavLink>
+                        
+                        {/* NEW: QR Types Dropdown */}
+                        <div className="relative group">
+                            <button className="text-base font-medium text-secondary hover:text-primary transition-colors flex items-center gap-1">
+                                QR Types
+                                <svg className="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-lg shadow-lg border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                <div className="py-2">
+                                    <NavLink 
+                                        to="/wifi-qr-generator" 
+                                        className="block px-4 py-2 text-sm text-secondary hover:text-primary hover:bg-gray-50"
+                                    >
+                                        WiFi QR Generator
+                                    </NavLink>
+                                    <NavLink 
+                                        to="/business-card-qr-generator" 
+                                        className="block px-4 py-2 text-sm text-secondary hover:text-primary hover:bg-gray-50"
+                                    >
+                                        Business Card QR
+                                    </NavLink>
+                                    <NavLink 
+                                        to="/restaurant-menu-qr" 
+                                        className="block px-4 py-2 text-sm text-secondary hover:text-primary hover:bg-gray-50"
+                                    >
+                                        Restaurant Menu QR
+                                    </NavLink>
+                                    <NavLink 
+                                        to="/bulk-qr-generator" 
+                                        className="block px-4 py-2 text-sm text-secondary hover:text-primary hover:bg-gray-50"
+                                    >
+                                        Bulk QR Generator
+                                    </NavLink>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <NavLink 
                             to="/blog" 
                             className={({ isActive }) => 
@@ -114,6 +156,28 @@ const Header: React.FC = () => {
                                 onClick={() => setIsMenuOpen(false)}
                             >
                                 Generator
+                            </NavLink>
+                            <NavLink 
+                                to="/wifi-qr-generator" 
+                                className={({ isActive }) => 
+                                    `block px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                                        isActive ? 'text-primary bg-blue-50' : 'text-secondary hover:text-primary hover:bg-gray-50'
+                                    }`
+                                }
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                WiFi QR Generator
+                            </NavLink>
+                            <NavLink 
+                                to="/business-card-qr-generator" 
+                                className={({ isActive }) => 
+                                    `block px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                                        isActive ? 'text-primary bg-blue-50' : 'text-secondary hover:text-primary hover:bg-gray-50'
+                                    }`
+                                }
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                Business Card QR
                             </NavLink>
                             <NavLink 
                                 to="/blog" 
@@ -216,8 +280,6 @@ const App: React.FC = () => {
                 <div className="min-h-screen flex flex-col font-sans bg-light">
                     <Header />
                     
-                    {/* REMOVED: Header Ad Placeholder - This was causing AdSense rejection */}
-                    
                     <main className="flex-grow">
                         <Routes>
                             <Route path="/" element={<HomePage />} />
@@ -225,14 +287,21 @@ const App: React.FC = () => {
                             <Route path="/faq" element={<FaqPage />} />
                             <Route path="/contact" element={<ContactPage />} />
                             
+                            {/* NEW: SEO-focused QR generator pages */}
+                            <Route path="/wifi-qr-generator" element={<WiFiQRGeneratorPage />} />
+                            <Route path="/business-card-qr-generator" element={<HomePage />} />
+                            
+                            {/* Future pages - these will redirect to main generator for now */}
+                            <Route path="/restaurant-menu-qr" element={<HomePage />} />
+                            <Route path="/bulk-qr-generator" element={<HomePage />} />
+                            <Route path="/qr-code-with-logo" element={<HomePage />} />
+                            
                             {/* SEO-friendly alternative routes */}
                             <Route path="/free-qr-code-generator" element={<HomePage />} />
                             <Route path="/qr-code-maker" element={<HomePage />} />
-                            <Route path="/bulk-qr-generator" element={<HomePage />} />
                             <Route path="/custom-qr-codes" element={<HomePage />} />
-                            <Route path="/wifi-qr-generator" element={<HomePage />} />
+                            <Route path="/wifi-qr-code-generator" element={<WiFiQRGeneratorPage />} />
                             <Route path="/vcard-qr-generator" element={<HomePage />} />
-                            <Route path="/business-card-qr" element={<HomePage />} />
                             
                             {/* 404 Fallback */}
                             <Route path="*" element={
@@ -248,6 +317,12 @@ const App: React.FC = () => {
                                                 Go to QR Generator
                                             </NavLink>
                                             <NavLink 
+                                                to="/wifi-qr-generator" 
+                                                className="block bg-gray-100 text-secondary px-6 py-3 rounded-md font-semibold hover:bg-gray-200 transition-colors"
+                                            >
+                                                Try WiFi QR Generator
+                                            </NavLink>
+                                            <NavLink 
                                                 to="/blog" 
                                                 className="block bg-gray-100 text-secondary px-6 py-3 rounded-md font-semibold hover:bg-gray-200 transition-colors"
                                             >
@@ -258,6 +333,47 @@ const App: React.FC = () => {
                                 </div>
                             } />
                         </Routes>
+                    </main>
+                                <Route path="/qr-code-with-logo" element={<HomePage />} />
+                                
+                                {/* SEO-friendly alternative routes */}
+                                <Route path="/free-qr-code-generator" element={<HomePage />} />
+                                <Route path="/qr-code-maker" element={<HomePage />} />
+                                <Route path="/custom-qr-codes" element={<HomePage />} />
+                                <Route path="/wifi-qr-code-generator" element={<WiFiQRGeneratorPage />} />
+                                <Route path="/vcard-qr-generator" element={<BusinessCardQRGeneratorPage />} />
+                                
+                                {/* 404 Fallback */}
+                                <Route path="*" element={
+                                    <div className="container mx-auto px-4 py-16 text-center">
+                                        <div className="max-w-md mx-auto bg-white rounded-lg shadow-lg p-8">
+                                            <h1 className="text-4xl font-bold text-dark mb-4">404 - Page Not Found</h1>
+                                            <p className="text-secondary mb-8">The page you're looking for doesn't exist, but our QR generator is ready to help!</p>
+                                            <div className="space-y-3">
+                                                <NavLink 
+                                                    to="/" 
+                                                    className="block bg-primary text-white px-6 py-3 rounded-md font-semibold hover:bg-blue-700 transition-colors"
+                                                >
+                                                    Go to QR Generator
+                                                </NavLink>
+                                                <NavLink 
+                                                    to="/wifi-qr-generator" 
+                                                    className="block bg-gray-100 text-secondary px-6 py-3 rounded-md font-semibold hover:bg-gray-200 transition-colors"
+                                                >
+                                                    Try WiFi QR Generator
+                                                </NavLink>
+                                                <NavLink 
+                                                    to="/blog" 
+                                                    className="block bg-gray-100 text-secondary px-6 py-3 rounded-md font-semibold hover:bg-gray-200 transition-colors"
+                                                >
+                                                    Browse Our Blog
+                                                </NavLink>
+                                            </div>
+                                        </div>
+                                    </div>
+                                } />
+                            </Routes>
+                        </React.Suspense>
                     </main>
                     
                     <Footer />
