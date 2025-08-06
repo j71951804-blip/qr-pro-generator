@@ -3,7 +3,6 @@ import { HashRouter, Routes, Route, NavLink } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
 import { ToastProvider } from './components/ui/Toast';
 import HomePage from './pages/HomePage';
-import BlogPage from './pages/BlogPage';
 import FaqPage from './pages/FaqPage';
 import ContactPage from './pages/ContactPage';
 import PrivacyPage from './pages/PrivacyPage';
@@ -12,7 +11,6 @@ import WiFiQRGeneratorPage from './pages/WiFiQRGeneratorPage';
 import BusinessCardQRGeneratorPage from './pages/BusinessCardQRGeneratorPage';
 import RestaurantMenuQRPage from './pages/RestaurantMenuQRPage';
 import BulkQRGeneratorPage from './pages/BulkQRGeneratorPage';
-import TutorialsPage from './pages/TutorialsPage';
 import { Menu } from 'lucide-react';
 
 // Tech QR Logo Component
@@ -99,26 +97,6 @@ const Header: React.FC = () => {
                             </div>
                         </div>
                         
-                        <NavLink 
-                            to="/blog" 
-                            className={({ isActive }) => 
-                                `text-base font-medium transition-colors ${
-                                    isActive ? 'text-primary' : 'text-secondary hover:text-primary'
-                                }`
-                            }
-                        >
-                            Blog
-                        </NavLink>
-                        <NavLink 
-                            to="/tutorials" 
-                            className={({ isActive }) => 
-                                `text-base font-medium transition-colors ${
-                                    isActive ? 'text-primary' : 'text-secondary hover:text-primary'
-                                }`
-                            }
-                        >
-                            Tutorials
-                        </NavLink>
                         <NavLink 
                             to="/faq" 
                             className={({ isActive }) => 
@@ -217,28 +195,6 @@ const Header: React.FC = () => {
                                 Bulk QR Generator
                             </NavLink>
                             <NavLink 
-                                to="/blog" 
-                                className={({ isActive }) => 
-                                    `block px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                                        isActive ? 'text-primary bg-blue-50' : 'text-secondary hover:text-primary hover:bg-gray-50'
-                                    }`
-                                }
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                Blog
-                            </NavLink>
-                            <NavLink 
-                                to="/tutorials" 
-                                className={({ isActive }) => 
-                                    `block px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                                        isActive ? 'text-primary bg-blue-50' : 'text-secondary hover:text-primary hover:bg-gray-50'
-                                    }`
-                                }
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                Tutorials
-                            </NavLink>
-                            <NavLink 
                                 to="/faq" 
                                 className={({ isActive }) => 
                                     `block px-3 py-2 rounded-md text-base font-medium transition-colors ${
@@ -332,8 +288,6 @@ const App: React.FC = () => {
                         <main className="flex-grow">
                             <Routes>
                                 <Route path="/" element={<HomePage />} />
-                                <Route path="/blog" element={<BlogPage />} />
-                                <Route path="/tutorials" element={<TutorialsPage />} />
                                 <Route path="/faq" element={<FaqPage />} />
                                 <Route path="/contact" element={<ContactPage />} />
                                 <Route path="/privacy" element={<PrivacyPage />} />
@@ -355,6 +309,10 @@ const App: React.FC = () => {
                                 <Route path="/wifi-qr-code-generator" element={<WiFiQRGeneratorPage />} />
                                 <Route path="/vcard-qr-generator" element={<BusinessCardQRGeneratorPage />} />
                                 
+                                {/* Redirect old blog/tutorial routes to homepage */}
+                                <Route path="/blog" element={<HomePage />} />
+                                <Route path="/tutorials" element={<HomePage />} />
+                                
                                 {/* 404 Fallback */}
                                 <Route path="*" element={
                                     <div className="container mx-auto px-4 py-16 text-center">
@@ -375,10 +333,10 @@ const App: React.FC = () => {
                                                     Try WiFi QR Generator
                                                 </NavLink>
                                                 <NavLink 
-                                                    to="/blog" 
+                                                    to="/faq" 
                                                     className="block bg-gray-100 text-secondary px-6 py-3 rounded-md font-semibold hover:bg-gray-200 transition-colors"
                                                 >
-                                                    Browse Our Blog
+                                                    Browse Our FAQ
                                                 </NavLink>
                                             </div>
                                         </div>
