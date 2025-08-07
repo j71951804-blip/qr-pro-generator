@@ -77,11 +77,6 @@
       "source": "/www/(.*)",
       "destination": "https://qr-pro-generator.com/$1",
       "permanent": true
-    },
-    {
-      "source": "/index.tsx",
-      "destination": "/",
-      "permanent": true
     }
   ],
   "rewrites": [
