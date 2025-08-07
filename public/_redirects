@@ -1,3 +1,5 @@
+# Netlify _redirects file - place in public/ directory
+
 # Static files first - serve them as-is
 /sitemap.xml    /sitemap.xml    200
 /robots.txt     /robots.txt     200
@@ -6,7 +8,16 @@
 /sw.js          /sw.js          200
 /ads.txt        /ads.txt        200
 /googlee81f8d4b5ddee3c5.html  /googlee81f8d4b5ddee3c5.html  200
+
+# Assets
 /assets/*       /assets/:splat  200
 
-# SPA fallback - serve React app for all other routes
-/*    /index.html   200
+# API routes if any
+/api/*          /api/:splat     200
+
+# All other routes go to React app
+/*              /index.html     200
+
+# Optional: Explicit redirects for SEO (301 redirects)
+/qr-generator   /               301
+/generator      /               301
