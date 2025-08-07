@@ -1,20 +1,14 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://qr-pro-generator.com/sitemap.xml
-
-# Block preview deployments and alternative domains
-User-agent: *
-Disallow: /*--*.vercel.app/
-
-# Allow common crawlers
+# Allow Googlebot specifically
 User-agent: Googlebot
 Allow: /
 
 User-agent: Bingbot
 Allow: /
 
-# Block AI training crawlers (optional)
+# Block AI training crawlers but not search engines
 User-agent: ChatGPT-User
 Disallow: /
 
@@ -23,3 +17,5 @@ Disallow: /
 
 User-agent: Claude-Web
 Disallow: /
+
+Sitemap: https://qr-pro-generator.com/sitemap.xml
