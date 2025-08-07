@@ -115,87 +115,11 @@
       "destination": "/ads.txt"
     },
     {
-      "source": "/wifi-qr-generator",
-      "destination": "/index.html"
+      "source": "/assets/(.*)",
+      "destination": "/assets/$1"
     },
     {
-      "source": "/business-card-qr-generator",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/restaurant-menu-qr",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/bulk-qr-generator",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/faq",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/contact",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/privacy",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/terms",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/free-qr-code-generator",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/qr-code-maker",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/custom-qr-codes",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/wifi-qr-code-generator",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/vcard-qr-generator",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/qr-generator-free",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/online-qr-code-generator",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/qr-code-with-logo",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/bulk-qr-code-generator",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/restaurant-qr-code",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/generator",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/create",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/make",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ],
