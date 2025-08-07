@@ -28,7 +28,7 @@
     "@types/file-saver": "^2.0.7",
     "@types/papaparse": "^5.3.14",
     "@vitejs/plugin-react": "^4.3.1",
-    "vite-prerender-plugin": "^0.5.10"
+    "vite-prerender-plugin": "^0.5.10",
     "typescript": "^5.5.4",
     "vite": "^5.4.2",
     "autoprefixer": "^10.4.20",
