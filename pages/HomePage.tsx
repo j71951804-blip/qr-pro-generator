@@ -5,11 +5,12 @@ import { Sidebar } from '../components/layout/Sidebar';
 import { EmailCaptureModal } from '../components/modals/EmailCaptureModal';
 import { QRCodeStats } from '../components/content/QRCodeStats';
 import { QRCodeBenefits } from '../components/content/QRCodeBenefits';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Wifi, CreditCard, Users, Smartphone, Download, Star, CheckCircle } from 'lucide-react';
 
 const HomePage: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const location = useLocation();
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -24,6 +25,69 @@ const HomePage: React.FC = () => {
             (window as any).trackEngagement(action, details);
         }
     };
+
+    // Handle query parameters for SEO
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const qParam = params.get('q');
+        
+        // If there are query parameters, clean the URL for SEO
+        if (qParam || params.toString()) {
+            // Track the search term if present
+            if (qParam) {
+                trackEngagement('search_query', qParam);
+            }
+            
+            // Clean URL by removing query parameters
+            window.history.replaceState({}, '', location.pathname);
+        }
+    }, [location]);
+
+    // Update meta tags based on current route
+    useEffect(() => {
+        let title = "Free QR Code Generator - Create WiFi, vCard, Business Card QR Codes | QR Pro Generator";
+        let description = "Generate unlimited free QR codes for URLs, WiFi, business cards, restaurants & more. Customize colors, add logos, download PNG/SVG/PDF. No registration required - 1M+ codes created!";
+        let canonical = "https://qr-pro-generator.com/";
+
+        // Handle different route variations
+        if (location.pathname === '/free-qr-code-generator') {
+            title = "Free QR Code Generator - No Registration Required | QR Pro Generator";
+            description = "100% free QR code generator with no signup required. Create unlimited QR codes for any purpose. Download instantly in PNG, SVG, PDF formats.";
+            canonical = "https://qr-pro-generator.com/free-qr-code-generator";
+        } else if (location.pathname === '/qr-code-maker') {
+            title = "QR Code Maker - Easy Online QR Generator | QR Pro Generator";
+            description = "Easy-to-use QR code maker for creating custom QR codes online. Professional quality, instant download, perfect for business and personal use.";
+            canonical = "https://qr-pro-generator.com/qr-code-maker";
+        }
+
+        // Update title
+        document.title = title;
+        
+        // Update meta description
+        const metaDescription = document.querySelector('meta[name="description"]');
+        if (metaDescription) {
+            metaDescription.setAttribute('content', description);
+        }
+        
+        // Update canonical URL
+        let canonicalLink = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
+        if (!canonicalLink) {
+            canonicalLink = document.createElement('link');
+            canonicalLink.setAttribute('rel', 'canonical');
+            document.head.appendChild(canonicalLink);
+        }
+        canonicalLink.setAttribute('href', canonical);
+        
+        // Update Open Graph tags
+        const ogTitle = document.querySelector('meta[property="og:title"]');
+        const ogDesc = document.querySelector('meta[property="og:description"]');
+        const ogUrl = document.querySelector('meta[property="og:url"]');
+        
+        if (ogTitle) ogTitle.setAttribute('content', title);
+        if (ogDesc) ogDesc.setAttribute('content', description);
+        if (ogUrl) ogUrl.setAttribute('content', canonical);
+        
+    }, [location.pathname]);
 
     return (
         <>
@@ -309,7 +373,7 @@ const HomePage: React.FC = () => {
                                             <span className="text-primary group-open:rotate-180 transition-transform">▼</span>
                                         </summary>
                                         <div className="p-4 text-secondary">
-                                            No, our QR codes never expire! They are static QR codes that will work forever as long as the content they link to remains active. Perfect for printed materials and long-term use.
+                                            No, our QR codes never expire! They are static QR codes that will work forever as long as the content they link to (e.g., the URL) is active. Perfect for printed materials and long-term use.
                                         </div>
                                     </details>
                                     
@@ -397,13 +461,13 @@ const HomePage: React.FC = () => {
                                     </Link>
                                     
                                     <Link 
-                                        to="/qr-code-with-logo" 
+                                        to="/restaurant-menu-qr" 
                                         className="p-4 border border-gray-200 rounded-lg hover:border-primary hover:shadow-md transition-all group"
-                                        onClick={() => trackEngagement('related_tool_click', 'logo')}
+                                        onClick={() => trackEngagement('related_tool_click', 'menu')}
                                     >
-                                        <Star className="w-8 h-8 text-primary mb-2 group-hover:scale-110 transition-transform" />
-                                        <h3 className="font-semibold text-dark">QR Code with Logo</h3>
-                                        <p className="text-sm text-secondary mt-1">Add your brand logo</p>
+                                        <Smartphone className="w-8 h-8 text-primary mb-2 group-hover:scale-110 transition-transform" />
+                                        <h3 className="font-semibold text-dark">Menu QR Generator</h3>
+                                        <p className="text-sm text-secondary mt-1">Contactless dining solutions</p>
                                     </Link>
                                 </div>
                             </div>
