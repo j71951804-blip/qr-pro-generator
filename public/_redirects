@@ -1,10 +1,11 @@
-# Static files first
+# Static files first - serve them as-is
 /sitemap.xml    /sitemap.xml    200
 /robots.txt     /robots.txt     200
 /manifest.json  /manifest.json  200
 /favicon.svg    /favicon.svg    200
 /sw.js          /sw.js          200
 /ads.txt        /ads.txt        200
+/googlee81f8d4b5ddee3c5.html  /googlee81f8d4b5ddee3c5.html  200
 /assets/*       /assets/:splat  200
 
 # SPA fallback - serve React app for all other routes
