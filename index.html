@@ -94,11 +94,9 @@
     </noscript>
 
     <!-- 
-      CRITICAL FIX: Let Vite automatically handle the script injection
-      During development: Vite dev server will serve main.tsx directly
-      During production: Vite build will replace this with the compiled JS
+      CRITICAL FIX: Remove the manual script tag - let Vite inject it automatically
+      Vite will automatically inject the correct script tags during build
     -->
-    <script type="module" src="/main.tsx"></script>
 
     <!-- Error handling -->
     <script>
