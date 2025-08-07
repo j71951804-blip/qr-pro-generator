@@ -1,36 +1,54 @@
-# Netlify _redirects file - Fixed version
+# Netlify _redirects file - Fixed for root-level main.tsx
 
-# Static files first - serve them as-is (MOST IMPORTANT)
-/assets/*           /assets/:splat          200
-/main.tsx           /main.tsx               200
-/*.js               /:splat                 200
-/*.css              /:splat                 200
-/*.json             /:splat                 200
-/*.svg              /:splat                 200
-/*.png              /:splat                 200
-/*.jpg              /:splat                 200
-/*.ico              /:splat                 200
-/*.woff             /:splat                 200
-/*.woff2            /:splat                 200
+# Static assets - HIGHEST PRIORITY (serve as-is)
+/assets/*               /assets/:splat              200
+/*.js                   /:splat                     200  
+/*.mjs                  /:splat                     200
+/*.ts                   /:splat                     200  # Allow TypeScript files during dev
+/*.tsx                  /:splat                     200  # Allow TypeScript React files during dev
+/*.css                  /:splat                     200
+/*.json                 /:splat                     200
+/*.svg                  /:splat                     200
+/*.png                  /:splat                     200
+/*.jpg                  /:splat                     200
+/*.jpeg                 /:splat                     200
+/*.gif                  /:splat                     200
+/*.ico                  /:splat                     200
+/*.woff                 /:splat                     200
+/*.woff2                /:splat                     200
+/*.ttf                  /:splat                     200
+/*.eot                  /:splat                     200
 
-# Specific static files
-/sitemap.xml        /sitemap.xml            200
-/robots.txt         /robots.txt             200
-/manifest.json      /manifest.json          200
-/favicon.svg        /favicon.svg            200
-/sw.js              /sw.js                  200
-/ads.txt            /ads.txt                200
+# Specific important files
+/main.tsx               /main.tsx                   200  # Explicitly allow main.tsx
+/sitemap.xml            /sitemap.xml                200
+/robots.txt             /robots.txt                 200
+/manifest.json          /manifest.json              200
+/favicon.svg            /favicon.svg                200
+/sw.js                  /sw.js                      200
+/ads.txt                /ads.txt                    200
 /googlee81f8d4b5ddee3c5.html  /googlee81f8d4b5ddee3c5.html  200
 
-# SPA fallback - ONLY for HTML pages
-/wifi-qr-generator              /index.html   200
-/business-card-qr-generator     /index.html   200
-/restaurant-menu-qr             /index.html   200
-/bulk-qr-generator              /index.html   200
-/faq                            /index.html   200
-/contact                        /index.html   200
-/privacy                        /index.html   200
-/terms                          /index.html   200
+# Component and page files (TypeScript/React)
+/components/*           /components/:splat          200
+/pages/*                /pages/:splat               200
+/services/*             /services/:splat            200
+/utils/*                /utils/:splat               200
 
-# Catch-all for other routes (but NOT files)
-/*                  /index.html   200
+# API endpoints (if any)
+/api/*                  /api/:splat                 200
+
+# SPA routes - HTML pages only
+/wifi-qr-generator              /index.html             200
+/business-card-qr-generator     /index.html             200
+/restaurant-menu-qr             /index.html             200
+/bulk-qr-generator              /index.html             200
+/faq                            /index.html             200
+/contact                        /index.html             200
+/privacy                        /index.html             200
+/terms                          /index.html             200
+/free-qr-code-generator         /index.html             200
+/qr-code-maker                  /index.html             200
+
+# Catch-all for routes without file extensions (HTML pages)
+/*                      /index.html                 200
