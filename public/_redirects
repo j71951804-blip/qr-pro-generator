@@ -1,13 +1,11 @@
-# Netlify _redirects file for SPA (Single Page Application)
-# This ensures all routes are handled by React Router
+# Static files first
+/sitemap.xml    /sitemap.xml    200
+/robots.txt     /robots.txt     200
+/manifest.json  /manifest.json  200
+/favicon.svg    /favicon.svg    200
+/sw.js          /sw.js          200
+/ads.txt        /ads.txt        200
+/assets/*       /assets/:splat  200
 
-# Handle SPA routing - serve index.html for all routes
+# SPA fallback - serve React app for all other routes
 /*    /index.html   200
-
-# Optional: Specific redirects for common variations (if needed)
-# /wifi-qr-code-generator    /wifi-qr-generator    301
-# /vcard-qr-code-generator   /business-card-qr-generator    301
-
-# Force HTTPS (optional - Netlify can do this in dashboard too)
-# http://qr-pro-generator.com/*    https://qr-pro-generator.com/:splat    301!
-# http://www.qr-pro-generator.com/*    https://qr-pro-generator.com/:splat    301!
