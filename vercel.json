@@ -56,15 +56,6 @@
           "value": "public, max-age=31536000, immutable"
         }
       ]
-    },
-    {
-      "source": "/(.*)\\.(js|css|svg|png|jpg|jpeg|gif|ico|woff|woff2|ttf|eot)$",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
     }
   ],
   "redirects": [
@@ -72,47 +63,44 @@
       "source": "/www.qr-pro-generator.com/(.*)",
       "destination": "https://qr-pro-generator.com/$1",
       "permanent": true
-    },
-    {
-      "source": "/www/(.*)",
-      "destination": "https://qr-pro-generator.com/$1",
-      "permanent": true
     }
   ],
-  "rewrites": [
+  "routes": [
     {
-      "source": "/sitemap.xml",
-      "destination": "/sitemap.xml"
+      "src": "/sitemap.xml",
+      "dest": "/sitemap.xml"
     },
     {
-      "source": "/robots.txt",
-      "destination": "/robots.txt"
+      "src": "/robots.txt",
+      "dest": "/robots.txt"
     },
     {
-      "source": "/manifest.json",
-      "destination": "/manifest.json"
+      "src": "/manifest.json",
+      "dest": "/manifest.json"
     },
     {
-      "source": "/favicon.svg",
-      "destination": "/favicon.svg"
+      "src": "/favicon.svg",
+      "dest": "/favicon.svg"
     },
     {
-      "source": "/sw.js",
-      "destination": "/sw.js"
+      "src": "/sw.js",
+      "dest": "/sw.js"
     },
     {
-      "source": "/ads.txt",
-      "destination": "/ads.txt"
+      "src": "/ads.txt",
+      "dest": "/ads.txt"
     },
     {
-      "source": "/assets/(.*)",
-      "destination": "/assets/$1"
+      "src": "/googlee81f8d4b5ddee3c5.html",
+      "dest": "/googlee81f8d4b5ddee3c5.html"
     },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
-  ],
-  "cleanUrls": true,
-  "trailingSlash": false
+  ]
 }
