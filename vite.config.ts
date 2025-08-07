@@ -1,30 +1,11 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import prerender from 'vite-prerender-plugin'
-
 import { resolve } from 'path'
 
 export default defineConfig({
   plugins: [
-    react(),
-    prerender({
-      staticDir: resolve(__dirname, 'dist'),
-      routes: [
-        '/',
-        '/wifi-qr-generator',
-        '/business-card-qr-generator',
-        '/restaurant-menu-qr',
-        '/bulk-qr-generator',
-        '/free-qr-code-generator',
-        '/qr-code-maker',
-        '/wifi-qr-code-generator',
-        '/vcard-qr-generator',
-        '/faq',
-        '/contact',
-        '/privacy',
-        '/terms'
-      ]
-    })
+    react()
+    // Removed prerender plugin - will handle SEO through other means
   ],
   base: '/',
   build: {
@@ -48,7 +29,6 @@ export default defineConfig({
         },
         assetFileNames: (assetInfo) => {
           const info = assetInfo.name?.split('.') || []
-          const extType = info[info.length - 1]
           if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico)$/i.test(assetInfo.name || '')) {
             return `assets/images/[name].[hash].[ext]`
           }
@@ -88,7 +68,7 @@ export default defineConfig({
     strictPort: false
   },
   define: {
-    __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
+    __APP_VERSION__: JSON.stringify(process.env.npm_package_version || '1.0.0'),
     __BUILD_DATE__: JSON.stringify(new Date().toISOString()),
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
   },
