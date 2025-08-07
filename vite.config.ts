@@ -1,9 +1,30 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import prerender from 'vite-plugin-prerender'
 import { resolve } from 'path'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    prerender({
+      staticDir: resolve(__dirname, 'dist'),
+      routes: [
+        '/',
+        '/wifi-qr-generator',
+        '/business-card-qr-generator',
+        '/restaurant-menu-qr',
+        '/bulk-qr-generator',
+        '/free-qr-code-generator',
+        '/qr-code-maker',
+        '/wifi-qr-code-generator',
+        '/vcard-qr-generator',
+        '/faq',
+        '/contact',
+        '/privacy',
+        '/terms'
+      ]
+    })
+  ],
   base: '/',
   build: {
     outDir: 'dist',
@@ -25,8 +46,8 @@ export default defineConfig({
           analytics: ['@vercel/analytics']
         },
         assetFileNames: (assetInfo) => {
-          const info = assetInfo.name?.split('.') || [];
-          const extType = info[info.length - 1];
+          const info = assetInfo.name?.split('.') || []
+          const extType = info[info.length - 1]
           if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico)$/i.test(assetInfo.name || '')) {
             return `assets/images/[name].[hash].[ext]`
           }
@@ -39,10 +60,8 @@ export default defineConfig({
         entryFileNames: 'assets/js/[name].[hash].js'
       }
     },
-    // Ensure compatibility with older browsers
     target: 'es2015',
-    minify: 'esbuild', // Use esbuild instead of terser
-    // Remove terser options since we're using esbuild
+    minify: 'esbuild'
   },
   resolve: {
     alias: {
@@ -68,7 +87,6 @@ export default defineConfig({
     strictPort: false
   },
   define: {
-    // Replace env variables at build time
     __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
     __BUILD_DATE__: JSON.stringify(new Date().toISOString()),
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
@@ -93,7 +111,6 @@ export default defineConfig({
     }
   },
   esbuild: {
-    // Remove console.log in production
     drop: process.env.NODE_ENV === 'production' ? ['console', 'debugger'] : []
   }
 })
