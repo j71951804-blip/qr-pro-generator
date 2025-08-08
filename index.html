@@ -1,148 +1,311 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Free QR Code Generator - QR Pro Generator</title>
     
-    <!-- Meta tags -->
-    <title>Free QR Code Generator - Create WiFi, vCard, Business Card QR Codes | QR Pro Generator</title>
-    <meta name="description" content="Generate unlimited free QR codes for URLs, WiFi, business cards, restaurants & more. Customize colors, add logos, download PNG/SVG/PDF. No registration required - 1M+ codes created!" />
+    <!-- React CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
-    <!-- Favicon and Icons -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="canonical" href="https://qr-pro-generator.com/" />
-    
-    <!-- Tailwind CSS CDN - ESSENTIAL FOR STYLING -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              primary: '#0D6EFD',
-              secondary: '#6C757D',
-              light: '#F8F9FA',
-              dark: '#212529',
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0D6EFD',
+                        secondary: '#6C757D',
+                    },
+                },
             },
-          },
-        },
-      }
+        }
     </script>
 
-    <!-- Critical CSS for loading -->
     <style>
-      body {
-        font-family: system-ui, -apple-system, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f8f9fa;
-      }
-
-      .loading-spinner {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        border: 3px solid rgba(13, 110, 253, 0.3);
-        border-radius: 50%;
-        border-top-color: #0D6EFD;
-        animation: spin 1s ease-in-out infinite;
-      }
-      
-      @keyframes spin {
-        to { transform: rotate(360deg); }
-      }
-
-      #loading-indicator {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 9999;
-        background: rgba(255, 255, 255, 0.95);
-        padding: 2rem;
-        border-radius: 8px;
-        text-align: center;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      }
-
-      /* Fallback styles in case Tailwind doesn't load */
-      .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
-      .bg-white { background-color: white; }
-      .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
-      .rounded-xl { border-radius: 0.75rem; }
-      .p-8 { padding: 2rem; }
-      .mb-8 { margin-bottom: 2rem; }
-      .text-center { text-align: center; }
-      .text-4xl { font-size: 2.25rem; }
-      .font-bold { font-weight: bold; }
-      .text-blue-600 { color: #2563eb; }
+        body { 
+            margin: 0; 
+            font-family: system-ui, sans-serif; 
+            background-color: #f8f9fa; 
+        }
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(13, 110, 253, 0.3);
+            border-radius: 50%;
+            border-top-color: #0D6EFD;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        #loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 9999;
+        }
     </style>
-  </head>
-  
-  <body>
+</head>
+<body>
     <!-- Loading indicator -->
-    <div id="loading-indicator">
-      <div class="loading-spinner"></div>
-      <p style="margin-top: 10px; color: #6C757D; font-size: 14px;">Loading QR Generator...</p>
+    <div id="loading">
+        <div class="loading-spinner"></div>
+        <p style="margin-top: 10px; color: #6C757D; font-size: 14px;">Loading QR Generator...</p>
     </div>
 
-    <!-- Main app container -->
+    <!-- React app container -->
     <div id="root"></div>
-    
-    <!-- Noscript fallback -->
-    <noscript>
-      <div style="text-align: center; padding: 50px; font-family: system-ui;">
-        <h1 style="color: #212529;">Free QR Code Generator</h1>
-        <p style="color: #6C757D;">Please enable JavaScript to use our QR code generator.</p>
-        <p style="color: #6C757D; font-size: 14px;">This app requires JavaScript to generate QR codes.</p>
-      </div>
-    </noscript>
 
-    <!-- Error handling -->
-    <script>
-      window.addEventListener('error', function(event) {
-        console.error('Loading Error:', event.error);
-        const loadingIndicator = document.getElementById('loading-indicator');
-        if (loadingIndicator) {
-          loadingIndicator.innerHTML = `
-            <div style="color: #dc3545; text-align: center;">
-              <h3 style="margin: 0 0 10px 0;">Loading Error</h3>
-              <p style="margin: 0 0 15px 0; font-size: 14px;">Failed to load the QR code generator</p>
-              <button onclick="window.location.reload()" style="background: #0D6EFD; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 14px;">
-                Refresh Page
-              </button>
-            </div>
-          `;
-        }
-      });
+    <!-- Inline React App -->
+    <script type="text/babel">
+        const { useState, useEffect } = React;
 
-      // Remove loading indicator when React renders
-      const observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-          if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-            const root = document.getElementById('root');
-            if (root && root.children.length > 0) {
-              setTimeout(() => {
-                const loadingIndicator = document.getElementById('loading-indicator');
-                if (loadingIndicator) {
-                  loadingIndicator.style.opacity = '0';
-                  loadingIndicator.style.transition = 'opacity 0.3s ease';
-                  setTimeout(() => loadingIndicator.remove(), 300);
+        function QRGenerator() {
+            const [inputValue, setInputValue] = useState('https://example.com');
+            const [currentPage, setCurrentPage] = useState('home');
+
+            // Remove loading indicator when component mounts
+            useEffect(() => {
+                const loading = document.getElementById('loading');
+                if (loading) {
+                    setTimeout(() => {
+                        loading.style.opacity = '0';
+                        setTimeout(() => loading.remove(), 300);
+                    }, 500);
                 }
-                observer.disconnect();
-              }, 1000);
-            }
-          }
-        });
-      });
+            }, []);
 
-      observer.observe(document.getElementById('root'), {
-        childList: true,
-        subtree: true
-      });
+            const renderPage = () => {
+                switch (currentPage) {
+                    case 'about':
+                        return (
+                            <div className="container mx-auto px-4 py-8">
+                                <h1 className="text-3xl font-bold mb-6 text-gray-900">About QR Pro Generator</h1>
+                                <div className="bg-white rounded-lg shadow-md p-6">
+                                    <p className="text-gray-600 mb-4">
+                                        QR Pro Generator is a free tool for creating QR codes for various purposes.
+                                    </p>
+                                    <p className="text-gray-600">
+                                        Generate QR codes for URLs, WiFi networks, business cards, and more!
+                                    </p>
+                                </div>
+                            </div>
+                        );
+
+                    case 'contact':
+                        return (
+                            <div className="container mx-auto px-4 py-8">
+                                <h1 className="text-3xl font-bold mb-6 text-gray-900">Contact Us</h1>
+                                <div className="bg-white rounded-lg shadow-md p-6">
+                                    <p className="text-gray-600 mb-4">
+                                        Get in touch with us for support or feedback.
+                                    </p>
+                                    <div className="space-y-2">
+                                        <p><strong>Email:</strong> support@qr-pro-generator.com</p>
+                                        <p><strong>Website:</strong> https://qr-pro-generator.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+
+                    default:
+                        return (
+                            <div className="container mx-auto px-4 py-8">
+                                {/* Hero Section */}
+                                <div className="text-center mb-8">
+                                    <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
+                                        <span className="text-blue-600">Free QR Code Generator</span>
+                                        <br />
+                                        <span className="text-3xl md:text-4xl text-gray-600 font-bold">
+                                            Create WiFi, vCard & Business Card QR Codes
+                                        </span>
+                                    </h1>
+                                    
+                                    <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-6">
+                                        Generate unlimited <strong>free QR codes</strong> for websites, WiFi networks, 
+                                        business cards, restaurant menus and more. Customize colors, add logos, download in PNG/SVG/PDF format.
+                                    </p>
+
+                                    {/* Features */}
+                                    <div className="flex flex-wrap justify-center gap-6 text-sm font-medium text-blue-600 mb-8">
+                                        <div className="flex items-center gap-1">
+                                            <span>✅</span>
+                                            <span>No Registration Required</span>
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                            <span>✅</span>
+                                            <span>Unlimited QR Codes</span>
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                            <span>✅</span>
+                                            <span>Commercial Use OK</span>
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                            <span>✅</span>
+                                            <span>High Quality Downloads</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* QR Generator */}
+                                <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
+                                    <h2 className="text-2xl font-bold text-center mb-6 text-gray-900">Create Your QR Code</h2>
+                                    
+                                    <div className="max-w-2xl mx-auto">
+                                        <div className="grid md:grid-cols-2 gap-8">
+                                            {/* Input Side */}
+                                            <div>
+                                                <div className="mb-4">
+                                                    <label className="block text-sm font-medium mb-2 text-gray-700">Enter URL or Text:</label>
+                                                    <input
+                                                        type="text"
+                                                        value={inputValue}
+                                                        onChange={(e) => setInputValue(e.target.value)}
+                                                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                        placeholder="https://example.com"
+                                                    />
+                                                </div>
+                                                
+                                                <button 
+                                                    className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                                                    onClick={() => alert('🎉 QR Code generation coming soon! This is just the demo version.')}
+                                                >
+                                                    Generate QR Code
+                                                </button>
+                                            </div>
+
+                                            {/* Preview Side */}
+                                            <div className="text-center">
+                                                <h3 className="text-lg font-semibold mb-4 text-gray-900">QR Code Preview</h3>
+                                                <div className="bg-gray-100 p-8 rounded-lg border-2 border-dashed border-gray-300">
+                                                    <div className="text-gray-500">
+                                                        <div className="text-4xl mb-2">📱</div>
+                                                        <p className="font-medium">QR Code Preview</p>
+                                                        <p className="text-sm mt-1">Enter data to generate</p>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div className="mt-4 grid grid-cols-3 gap-2">
+                                                    <button className="bg-green-600 text-white py-2 px-3 rounded text-sm hover:bg-green-700">PNG</button>
+                                                    <button className="bg-blue-600 text-white py-2 px-3 rounded text-sm hover:bg-blue-700">SVG</button>
+                                                    <button className="bg-red-600 text-white py-2 px-3 rounded text-sm hover:bg-red-700">PDF</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Features Section */}
+                                <div className="bg-white rounded-xl shadow-lg p-8">
+                                    <h2 className="text-2xl font-bold text-center mb-8 text-gray-900">Why Choose Our Free QR Code Generator?</h2>
+                                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                                        <div className="text-center">
+                                            <div className="text-3xl mb-3">🆓</div>
+                                            <h3 className="font-semibold text-gray-900 mb-2">Always Free</h3>
+                                            <p className="text-sm text-gray-600">No registration or payment required</p>
+                                        </div>
+                                        <div className="text-center">
+                                            <div className="text-3xl mb-3">🎨</div>
+                                            <h3 className="font-semibold text-gray-900 mb-2">Custom Design</h3>
+                                            <p className="text-sm text-gray-600">Colors, logos, sizes, error correction</p>
+                                        </div>
+                                        <div className="text-center">
+                                            <div className="text-3xl mb-3">📱</div>
+                                            <h3 className="font-semibold text-gray-900 mb-2">Multiple Types</h3>
+                                            <p className="text-sm text-gray-600">URLs, WiFi, vCard, Email, SMS, Phone</p>
+                                        </div>
+                                        <div className="text-center">
+                                            <div className="text-3xl mb-3">💼</div>
+                                            <h3 className="font-semibold text-gray-900 mb-2">Commercial Use</h3>
+                                            <p className="text-sm text-gray-600">Free for business and personal use</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                }
+            };
+
+            return (
+                <div className="min-h-screen bg-gray-50">
+                    {/* Header */}
+                    <header className="bg-white shadow-sm sticky top-0 z-50">
+                        <nav className="container mx-auto px-4">
+                            <div className="flex items-center justify-between h-16">
+                                <div className="flex items-center">
+                                    <button 
+                                        onClick={() => setCurrentPage('home')}
+                                        className="flex items-center space-x-2 text-decoration-none"
+                                    >
+                                        <div className="w-8 h-8 bg-blue-600 rounded text-white flex items-center justify-center font-bold text-sm">
+                                            QR
+                                        </div>
+                                        <span className="text-xl font-bold text-gray-900">QR Pro Generator</span>
+                                    </button>
+                                </div>
+                                
+                                <div className="hidden md:flex items-center space-x-8">
+                                    <button 
+                                        onClick={() => setCurrentPage('home')}
+                                        className={`text-base font-medium transition-colors ${
+                                            currentPage === 'home' ? 'text-blue-600' : 'text-gray-600 hover:text-blue-600'
+                                        }`}
+                                    >
+                                        Home
+                                    </button>
+                                    <button 
+                                        onClick={() => setCurrentPage('about')}
+                                        className={`text-base font-medium transition-colors ${
+                                            currentPage === 'about' ? 'text-blue-600' : 'text-gray-600 hover:text-blue-600'
+                                        }`}
+                                    >
+                                        About
+                                    </button>
+                                    <button 
+                                        onClick={() => setCurrentPage('contact')}
+                                        className={`text-base font-medium transition-colors ${
+                                            currentPage === 'contact' ? 'text-blue-600' : 'text-gray-600 hover:text-blue-600'
+                                        }`}
+                                    >
+                                        Contact
+                                    </button>
+                                </div>
+                                
+                                <button className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition-colors">
+                                    Sign Up Free
+                                </button>
+                            </div>
+                        </nav>
+                    </header>
+                    
+                    {/* Main Content */}
+                    <main>
+                        {renderPage()}
+                    </main>
+                    
+                    {/* Footer */}
+                    <footer className="bg-white mt-12 py-8 border-t">
+                        <div className="container mx-auto px-4 text-center text-gray-600">
+                            <p className="mb-2">&copy; 2025 QR Pro Generator. All rights reserved.</p>
+                            <p className="text-sm">Free QR code generator for URLs, text, WiFi, business cards and more.</p>
+                        </div>
+                    </footer>
+                </div>
+            );
+        }
+
+        // Render the app
+        console.log('🚀 Starting React render...');
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(React.createElement(QRGenerator));
+        console.log('✅ React app rendered!');
     </script>
-    
-    <!-- Vite will automatically inject the script tags during build -->
-  </body>
+</body>
 </html>
