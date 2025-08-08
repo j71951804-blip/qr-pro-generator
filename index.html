@@ -79,22 +79,8 @@
       </div>
     </noscript>
 
-    <!-- Error handling and loading cleanup -->
-    <script type="module">
-      // Remove loading indicator when React app loads
-      window.addEventListener('DOMContentLoaded', function() {
-        // Set a timeout to remove loading indicator
-        setTimeout(() => {
-          const loadingIndicator = document.getElementById('loading-indicator');
-          if (loadingIndicator) {
-            loadingIndicator.style.opacity = '0';
-            loadingIndicator.style.transition = 'opacity 0.3s ease';
-            setTimeout(() => loadingIndicator.remove(), 300);
-          }
-        }, 2000); // Give React time to load
-      });
-
-      // Error handling
+    <!-- Error handling -->
+    <script>
       window.addEventListener('error', function(event) {
         console.error('Loading Error:', event.error);
         const loadingIndicator = document.getElementById('loading-indicator');
@@ -137,7 +123,7 @@
       });
     </script>
     
-    <!-- Vite will inject the main script here during build -->
-    <script type="module" src="/src/main.tsx"></script>
+    <!-- This is where Vite will inject the script tag for main.tsx during build -->
+    <script type="module" src="/main.tsx"></script>
   </body>
 </html>
