@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <!-- All your existing meta tags -->
+    <!-- Meta tags -->
     <title>Free QR Code Generator - Create WiFi, vCard, Business Card QR Codes | QR Pro Generator</title>
     <meta name="description" content="Generate unlimited free QR codes for URLs, WiFi, business cards, restaurants & more. Customize colors, add logos, download PNG/SVG/PDF. No registration required - 1M+ codes created!" />
     
@@ -22,25 +22,15 @@
       gtag('config', 'G-YOUR-ACTUAL-GA4-ID');
     </script>
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              primary: '#0D6EFD',
-              secondary: '#6C757D',
-              light: '#F8F9FA',
-              dark: '#212529',
-            },
-          },
-        },
-      }
-    </script>
-
-    <!-- Critical CSS -->
+    <!-- Critical CSS for loading -->
     <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+      }
+
       .loading-spinner {
         display: inline-block;
         width: 20px;
@@ -65,17 +55,12 @@
         padding: 2rem;
         border-radius: 8px;
         text-align: center;
-      }
-
-      body {
-        font-family: system-ui, -apple-system, sans-serif;
-        margin: 0;
-        padding: 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       }
     </style>
   </head>
   
-  <body class="bg-light">
+  <body>
     <!-- Loading indicator -->
     <div id="loading-indicator">
       <div class="loading-spinner"></div>
@@ -87,45 +72,72 @@
     
     <!-- Noscript fallback -->
     <noscript>
-      <div style="text-align: center; padding: 50px;">
-        <h1>Free QR Code Generator</h1>
-        <p>Please enable JavaScript to use our QR code generator.</p>
+      <div style="text-align: center; padding: 50px; font-family: system-ui;">
+        <h1 style="color: #212529;">Free QR Code Generator</h1>
+        <p style="color: #6C757D;">Please enable JavaScript to use our QR code generator.</p>
+        <p style="color: #6C757D; font-size: 14px;">This app requires JavaScript to generate QR codes.</p>
       </div>
     </noscript>
 
-    <!-- 
-      CRITICAL FIX: Remove the manual script tag - let Vite inject it automatically
-      Vite will automatically inject the correct script tags during build
-    -->
+    <!-- Error handling and loading cleanup -->
+    <script type="module">
+      // Remove loading indicator when React app loads
+      window.addEventListener('DOMContentLoaded', function() {
+        // Set a timeout to remove loading indicator
+        setTimeout(() => {
+          const loadingIndicator = document.getElementById('loading-indicator');
+          if (loadingIndicator) {
+            loadingIndicator.style.opacity = '0';
+            loadingIndicator.style.transition = 'opacity 0.3s ease';
+            setTimeout(() => loadingIndicator.remove(), 300);
+          }
+        }, 2000); // Give React time to load
+      });
 
-    <!-- Error handling -->
-    <script>
+      // Error handling
       window.addEventListener('error', function(event) {
-        console.error('Error:', event.error);
+        console.error('Loading Error:', event.error);
         const loadingIndicator = document.getElementById('loading-indicator');
         if (loadingIndicator) {
           loadingIndicator.innerHTML = `
-            <div style="color: #dc3545;">
-              <h3>Loading Error</h3>
-              <p>Please refresh the page</p>
-              <button onclick="window.location.reload()" style="background: #0D6EFD; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
-                Refresh
+            <div style="color: #dc3545; text-align: center;">
+              <h3 style="margin: 0 0 10px 0;">Loading Error</h3>
+              <p style="margin: 0 0 15px 0; font-size: 14px;">Failed to load the QR code generator</p>
+              <button onclick="window.location.reload()" style="background: #0D6EFD; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 14px;">
+                Refresh Page
               </button>
             </div>
           `;
         }
       });
 
-      // Remove loading indicator when app loads
-      window.addEventListener('load', function() {
-        setTimeout(() => {
-          const loadingIndicator = document.getElementById('loading-indicator');
-          if (loadingIndicator) {
-            loadingIndicator.style.opacity = '0';
-            setTimeout(() => loadingIndicator.remove(), 300);
+      // Remove loading indicator when React renders
+      const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+            const root = document.getElementById('root');
+            if (root && root.children.length > 0) {
+              setTimeout(() => {
+                const loadingIndicator = document.getElementById('loading-indicator');
+                if (loadingIndicator) {
+                  loadingIndicator.style.opacity = '0';
+                  loadingIndicator.style.transition = 'opacity 0.3s ease';
+                  setTimeout(() => loadingIndicator.remove(), 300);
+                }
+                observer.disconnect();
+              }, 500);
+            }
           }
-        }, 1000);
+        });
+      });
+
+      observer.observe(document.getElementById('root'), {
+        childList: true,
+        subtree: true
       });
     </script>
+    
+    <!-- Vite will inject the main script here during build -->
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
