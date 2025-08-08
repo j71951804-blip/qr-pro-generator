@@ -13,13 +13,21 @@
     <link rel="manifest" href="/manifest.json" />
     <link rel="canonical" href="https://qr-pro-generator.com/" />
     
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YOUR-ACTUAL-GA4-ID"></script>
+    <!-- Tailwind CSS CDN - ESSENTIAL FOR STYLING -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-YOUR-ACTUAL-GA4-ID');
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#0D6EFD',
+              secondary: '#6C757D',
+              light: '#F8F9FA',
+              dark: '#212529',
+            },
+          },
+        },
+      }
     </script>
 
     <!-- Critical CSS for loading -->
@@ -57,6 +65,18 @@
         text-align: center;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       }
+
+      /* Fallback styles in case Tailwind doesn't load */
+      .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+      .bg-white { background-color: white; }
+      .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+      .rounded-xl { border-radius: 0.75rem; }
+      .p-8 { padding: 2rem; }
+      .mb-8 { margin-bottom: 2rem; }
+      .text-center { text-align: center; }
+      .text-4xl { font-size: 2.25rem; }
+      .font-bold { font-weight: bold; }
+      .text-blue-600 { color: #2563eb; }
     </style>
   </head>
   
@@ -111,7 +131,7 @@
                   setTimeout(() => loadingIndicator.remove(), 300);
                 }
                 observer.disconnect();
-              }, 500);
+              }, 1000);
             }
           }
         });
@@ -123,7 +143,6 @@
       });
     </script>
     
-    <!-- This is where Vite will inject the script tag for main.tsx during build -->
-    <script type="module" src="/main.tsx"></script>
+    <!-- Vite will automatically inject the script tags during build -->
   </body>
 </html>
